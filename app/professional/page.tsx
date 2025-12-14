@@ -30,7 +30,9 @@ const PROFILE = {
 const PROJECTS = [
   {
     name: 'XP Lab (EmoryHacks \'25 Winner)',
-    status: 'Complete',
+    status: 'STABLE',
+    processType: 'CORE SERVICE',
+    isFlagship: true,
     techStack: 'Python, FastAPI, React.js, PostgreSQL (Supabase), WebSockets, Whisper API',
     focus: 'AI-powered lecture intelligence platform for professors and students',
     impact: [
@@ -50,7 +52,9 @@ const PROJECTS = [
   },
   {
     name: 'JobHunter.AI',
-    status: 'Complete',
+    status: 'STABLE',
+    processType: 'PRODUCTION SYSTEM',
+    isFlagship: true,
     techStack: 'Python, Flask, React.js, PostgreSQL (Supabase), OpenAI, Google Cloud, Azure, Matplotlib, Plotly',
     focus: 'Automated job application tracking system',
     impact: [
@@ -69,7 +73,9 @@ const PROJECTS = [
   },
   {
     name: 'Employee Management System',
-    status: 'Complete',
+    status: 'ARCHIVED',
+    processType: 'INFRASTRUCTURE',
+    isFlagship: false,
     techStack: 'Java, MySQL, JDBC, SQL, Console-Based Application Architecture',
     focus: 'Secure employee data management with role-based access control and payroll reporting',
     impact: [
@@ -91,7 +97,9 @@ const PROJECTS = [
   },
   {
     name: 'HearSpace',
-    status: 'In Progress',
+    status: 'EXPERIMENTAL',
+    processType: 'HARDWARE',
+    isFlagship: false,
     techStack: 'Python, Computer Vision, Embedded Systems, ESP32-CAM, Deep Learning Models, Spatial Audio',
     focus: 'Assistive navigation through real-time vision-to-audio spatial mapping',
     impact: [
@@ -557,6 +565,27 @@ function HeroSection() {
   )
 }
 
+// Status color mapping
+const getStatusColor = (status: string, colors: typeof THEME.colors) => {
+  switch (status) {
+    case 'ACTIVE':
+      return OS_COLORS.status // Green
+    case 'STABLE':
+      return OS_COLORS.status // Green
+    case 'EXPERIMENTAL':
+      return colors.secondary.main // Amber
+    case 'ARCHIVED':
+      return colors.text.tertiary // Gray
+    default:
+      return OS_COLORS.status
+  }
+}
+
+// Status pulse - only for active/stable
+const shouldPulseStatus = (status: string) => {
+  return status === 'ACTIVE' || status === 'STABLE'
+}
+
 function ProjectsSection() {
   const [projectImages, setProjectImages] = useState<Record<number, string[]>>({})
 
@@ -603,49 +632,90 @@ function ProjectsSection() {
           initial="hidden"
           animate="visible"
         >
-          {PROJECTS.map((project, index) => (
+          {PROJECTS.map((project, index) => {
+            const projectStatus = (project as any).status || 'STABLE'
+            const processType = (project as any).processType || 'PRODUCTION SYSTEM'
+            const isFlagship = (project as any).isFlagship || false
+            const statusColor = getStatusColor(projectStatus, colors)
+            const shouldPulse = shouldPulseStatus(projectStatus)
+            
+            // Flagship projects get stronger visual weight
+            const borderWidth = isFlagship ? '2px' : '1px'
+            const baseGlow = isFlagship ? OS_COLORS.glow.medium : OS_COLORS.glow.low
+            
+            return (
             <motion.div
               key={index}
               className="rounded-lg p-6"
               style={{ 
                 backgroundColor: colors.bg.surface,
-                borderColor: colors.border.hover,
-                borderWidth: '1px',
+                borderColor: isFlagship ? colors.border.active : colors.border.hover,
+                borderWidth: borderWidth,
                 borderStyle: 'solid',
               }}
               variants={mountVariants}
-              whileHover={{ 
+              whileHover={isFlagship ? {
+                // Flagship: title + border emphasis
+                borderColor: OS_COLORS.main,
+                boxShadow: `0 0 20px ${baseGlow}`,
+                transition: { duration: 0.2 },
+              } : processType === 'HARDWARE' || processType === 'EXPERIMENTAL' ? {
+                // Experimental: status indicator emphasis
+                borderColor: colors.border.active,
+                boxShadow: `0 0 12px ${baseGlow}`,
+                transition: { duration: 0.2 },
+              } : {
+                // Standard: border + subtle glow
                 borderColor: colors.border.active,
                 opacity: 0.95,
-                boxShadow: `0 0 15px ${OS_COLORS.glow.low}`,
+                boxShadow: `0 0 10px ${baseGlow}`,
                 transition: { duration: 0.2 },
               }}
             >
               <div className="flex items-start justify-between mb-3">
                 <div className="flex-1">
+                  {/* Process Type Badge */}
+                  <div className="mb-2">
+                    <span 
+                      className="font-mono text-xs px-2 py-0.5 rounded"
+                      style={{ 
+                        backgroundColor: colors.bg.elevated,
+                        borderColor: colors.border.default,
+                        borderWidth: '1px',
+                        borderStyle: 'solid',
+                        color: colors.text.tertiary,
+                      }}
+                    >
+                      {processType}
+                    </span>
+                  </div>
+                  
                   <motion.h3 
-                    className="font-mono text-xl mb-2" 
-                    style={{ color: colors.text.primary }}
-                    whileHover={{ 
+                    className="font-mono mb-2" 
+                    style={{ 
+                      color: colors.text.primary,
+                      fontSize: isFlagship ? '1.25rem' : '1.125rem', // Slightly larger for flagship
+                    }}
+                    whileHover={isFlagship ? {
                       color: OS_COLORS.main,
+                      transition: { duration: 0.2 },
+                    } : {
+                      color: colors.text.secondary,
                       transition: { duration: 0.2 },
                     }}
                   >
                     {project.name}
                   </motion.h3>
+                  
                   <div className="flex items-center gap-2 mb-2">
                     <motion.div 
                       className="w-2 h-2 rounded-full"
-                      style={{ 
-                        backgroundColor: (project as any).status === 'In Progress' 
-                          ? colors.secondary.main 
-                          : OS_COLORS.status
-                      }}
-                      animate={{ opacity: [1, 0.96, 1] }}
-                      transition={{ duration: 3, repeat: Infinity, repeatType: 'loop', ease: 'easeInOut' }}
+                      style={{ backgroundColor: statusColor }}
+                      animate={shouldPulse ? { opacity: [1, 0.96, 1] } : { opacity: 1 }}
+                      transition={shouldPulse ? { duration: 3, repeat: Infinity, repeatType: 'loop', ease: 'easeInOut' } : {}}
                     />
                     <span className="text-sm italic" style={{ color: colors.text.secondary }}>
-                      {(project as any).status || 'Complete'}
+                      {projectStatus}
                     </span>
                   </div>
                   <div className="text-sm mb-2" style={{ color: colors.text.secondary }}>
@@ -770,7 +840,8 @@ function ProjectsSection() {
                 </div>
               )}
             </motion.div>
-          ))}
+            )
+          })}
         </motion.div>
       </div>
     </motion.section>
@@ -1218,9 +1289,21 @@ export default function ProfessionalPage() {
           {...SYSTEM_MOUNT.runtime}
         >
           <div className="max-w-7xl mx-auto text-center">
-            <div className="font-mono text-xs" style={{ color: colors.text.tertiary }}>
+            <Link 
+              href="/"
+              className="font-mono text-xs transition-colors inline-block"
+              style={{ color: colors.text.tertiary }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.color = colors.text.primary
+                e.currentTarget.style.textShadow = `0 0 8px ${OS_COLORS.glow.low}`
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = colors.text.tertiary
+                e.currentTarget.style.textShadow = 'none'
+              }}
+            >
               {'> exit'}
-            </div>
+            </Link>
           </div>
         </motion.footer>
       </div>

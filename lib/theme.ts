@@ -85,6 +85,35 @@ export const COLORS = {
     hover: '#d4a017',        // Hover color
   },
 
+  // mir.raw (Personal page - Soft Low-Contrast Dark OS)
+  // Calm, intimate, reflective dark aesthetic (macOS dark Finder / Linear dark / Raycast dark)
+  raw: {
+    bg: {
+      primary: '#1a1a1a',     // Deep charcoal canvas (not pure black, low-glare)
+      panel: '#242424',        // Slightly lighter panels (subtle elevation)
+      surface: '#262626',     // Subtle surface variation
+      elevated: '#282828',    // Elevated surfaces (hover states)
+      topBar: '#1c1c1c',      // Darker top bar (system chrome, distinct from canvas)
+    },
+    text: {
+      primary: '#e0e0e0',    // Soft light gray headings (not pure white)
+      secondary: '#a0a0a0',  // Muted gray body text (comfortable for reading)
+      tertiary: '#707070',    // Dimmer gray metadata
+      muted: '#5a5a5a',       // Very muted gray
+    },
+    border: {
+      default: '#2a2a2a',    // Very subtle border (low contrast)
+      soft: '#353535',        // Slightly lighter border (hover states)
+      divider: '#2e2e2e',     // Subtle divider line
+    },
+    accent: {
+      // Same blue as mir.exe but desaturated for low-contrast dark mode
+      blue: '#5a9de8',        // Desaturated blue (softer than mir.exe)
+      blueLight: '#6ba8f0',   // Lighter blue
+      blueDark: '#4a8dd0',    // Darker blue
+    },
+  },
+
   // System status
   status: {
     success: '#00ff00',      // Success/active (green)
