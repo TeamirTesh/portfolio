@@ -3,6 +3,12 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { motion } from 'framer-motion'
+import { THEME } from '@/lib/theme'
+import { SYSTEM_MOUNT, staggerContainer, staggerContainerOS, mountVariants, TERMINAL_LIFE, OS_HOVER_RESPONSE } from '@/lib/motion'
+
+// OS page uses saturated colors
+const OS_COLORS = THEME.colors.primary.os
 
 // ===== CONFIGURATION - Easy to update for recruiters =====
 const PROFILE = {
@@ -224,8 +230,7 @@ const TECHNICAL_INTERESTS = [
   'Backend Architecture & Performance',
   'Systems Programming',
 ]
-
-const CAREER_TRAJECTORY = `I'm focused on becoming a Software Engineer + Applied AI Engineer, building a strong portfolio with real hardware + AI systems. Currently publishing ML research at GSU's MORSE Studio and preparing for Microsoft / FAANG SWE new-grad positions after completing the Cargill TDP program. My long-term direction involves deep specialization in the intersection of AI/ML and systems engineering, where model serving, inference optimization, and infrastructure automation create meaningful technical impact.`
+const CAREER_TRAJECTORY = `Right now, I’m primarily locked in on software engineering, so I’m investing heavily in core SWE skills through things like a systems design certification, an AWS/cloud certification, and an upcoming SWE internship. At the same time, I’m intentionally building strong AI/ML fundamentals by joining two research labs and working on ML-focused projects, with the long-term goal of specializing in machine learning during graduate school. I see SWE as my foundation and AI/ML as my specialization, allowing me to bridge production-level systems with advanced machine learning rather than treating them as separate paths.`
 
 const LICENSES_CERTIFICATIONS: Array<{ name: string; issuer: string; year: string }> = [
   // Add licenses and certifications here, e.g.:
@@ -281,6 +286,7 @@ function normalizeCompanyName(name: string): string {
 }
 
 function CompanyIcon({ company, icon }: { company: string; icon?: string }) {
+  const colors = THEME.colors
   const [imageError, setImageError] = useState(false)
   const [currentExtensionIndex, setCurrentExtensionIndex] = useState(0)
   const [imageLoaded, setImageLoaded] = useState(false)
@@ -294,7 +300,7 @@ function CompanyIcon({ company, icon }: { company: string; icon?: string }) {
   const imageExtensions = ['.png', '.jpg', '.jpeg', '.webp', '.svg']
   
   // Get background color for this company
-  const backgroundColor = LOGO_BACKGROUNDS[company] || '#1a1a1a'
+  const backgroundColor = LOGO_BACKGROUNDS[company] || colors.bg.elevated
   
   // Determine image source
   const imageSrc = icon || (currentExtensionIndex < imageExtensions.length 
@@ -341,8 +347,13 @@ function CompanyIcon({ company, icon }: { company: string; icon?: string }) {
     
     return (
       <div 
-        className="w-10 h-10 flex-shrink-0 rounded border border-[#2a2a2a] flex items-center justify-center overflow-hidden"
-        style={{ backgroundColor }}
+        className="w-10 h-10 flex-shrink-0 rounded flex items-center justify-center overflow-hidden"
+        style={{ 
+          backgroundColor,
+          borderColor: colors.border.hover,
+          borderWidth: '1px',
+          borderStyle: 'solid',
+        }}
       >
         <img 
           src={imageSrc} 
@@ -359,46 +370,107 @@ function CompanyIcon({ company, icon }: { company: string; icon?: string }) {
   // Fallback to initials
   const initials = getInitials(company)
   return (
-    <div className="w-10 h-10 flex-shrink-0 rounded bg-[#1a1a1a] border border-[#2a2a2a] flex items-center justify-center">
-      <span className="text-[#888] text-xs font-mono font-semibold">{initials}</span>
+    <div 
+      className="w-10 h-10 flex-shrink-0 rounded flex items-center justify-center"
+      style={{ 
+        backgroundColor: colors.bg.elevated,
+        borderColor: colors.border.hover,
+        borderWidth: '1px',
+        borderStyle: 'solid',
+      }}
+    >
+      <span className="text-xs font-mono font-semibold" style={{ color: colors.text.secondary }}>{initials}</span>
     </div>
   )
 }
 
 // ===== Components =====
 function SystemHeader() {
+  const colors = THEME.colors
+  
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-[#0a0a0a] border-b border-[#1a1a1a] px-6 py-3">
+    <motion.header 
+      className="fixed top-0 left-0 right-0 z-50 px-6 py-3"
+      style={{ 
+        backgroundColor: colors.bg.panel,
+        borderBottomColor: colors.border.default,
+        borderBottomWidth: '1px',
+        borderBottomStyle: 'solid',
+      }}
+      {...SYSTEM_MOUNT.runtime}
+    >
       <div className="max-w-7xl mx-auto flex items-center justify-between text-sm">
-        <div className="flex items-center gap-6 font-mono text-[#888]">
-          <span className="text-white">mir.exe</span>
-          <span className="text-[#666]">—</span>
+        <div className="flex items-center gap-6 font-mono" style={{ color: colors.text.secondary }}>
+          <span style={{ color: colors.text.primary }}>mir.exe</span>
+          <span style={{ color: colors.text.tertiary }}>—</span>
           <span>Professional Runtime Environment</span>
-          <span className="text-[#666]">|</span>
-          <span>Status: <span className="text-green-400">ACTIVE</span></span>
-          <span className="text-[#666]">|</span>
+          <span style={{ color: colors.text.tertiary }}>|</span>
+          <span>Status: <motion.span 
+            style={{ color: OS_COLORS.status }}
+            animate={{ opacity: [1, 0.96, 1] }}
+            transition={{ duration: 3, repeat: Infinity, repeatType: 'loop', ease: 'easeInOut' }}
+          >ACTIVE</motion.span></span>
+          <span style={{ color: colors.text.tertiary }}>|</span>
           <span>Role: {PROFILE.role}</span>
-          <span className="text-[#666]">|</span>
+          <span style={{ color: colors.text.tertiary }}>|</span>
           <span>Graduation: {PROFILE.graduation}</span>
+          {/* Terminal presence - blinking cursor */}
+          <motion.span 
+            className="ml-2"
+            style={{ color: OS_COLORS.main }}
+            animate={{ opacity: [1, 1, 0, 0] }}
+            transition={{ duration: 0.8, repeat: Infinity, repeatType: 'loop', times: [0, 0.5, 0.5, 1] }}
+          >
+            _
+          </motion.span>
         </div>
         <nav className="flex items-center gap-4">
-          <Link href="/" className="text-[#888] hover:text-white transition-colors font-mono text-xs">
+          <Link 
+            href="/" 
+            className="font-mono text-xs transition-colors"
+            style={{ color: colors.text.secondary }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.color = colors.text.primary
+              e.currentTarget.style.textShadow = `0 0 8px ${OS_COLORS.glow.low}`
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.color = colors.text.secondary
+              e.currentTarget.style.textShadow = 'none'
+            }}
+          >
             {'< exit'}
           </Link>
         </nav>
       </div>
-    </header>
+    </motion.header>
   )
 }
 
 function HeroSection() {
+  const colors = THEME.colors
+  
   return (
-    <section className="pt-8 pb-4 px-6">
+    <motion.section 
+      className="pt-8 pb-4 px-6"
+      {...SYSTEM_MOUNT.runtime}
+    >
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row items-center md:items-start gap-4 md:gap-6">
           {/* Headshot */}
-          <div className="flex-shrink-0">
-            <div className="relative w-48 h-48 md:w-56 md:h-56 rounded-lg overflow-hidden border-2 border-[#2a2a2a] bg-[#1a1a1a]">
+          <motion.div 
+            className="flex-shrink-0"
+            {...SYSTEM_MOUNT.runtime}
+            transition={{ ...SYSTEM_MOUNT.runtime.transition, delay: 0.1 }}
+          >
+            <div 
+              className="relative w-48 h-48 md:w-56 md:h-56 rounded-lg overflow-hidden"
+              style={{ 
+                borderWidth: '2px',
+                borderStyle: 'solid',
+                borderColor: colors.border.hover,
+                backgroundColor: colors.bg.elevated,
+              }}
+            >
               <Image
                 src={PROFILE.headshot}
                 alt={PROFILE.name}
@@ -407,70 +479,81 @@ function HeroSection() {
                 priority
               />
             </div>
-          </div>
+          </motion.div>
 
           {/* Identity Block */}
-          <div className="space-y-4 flex-1">
-            <div className="font-mono text-[#666] text-sm mb-2">
+          <motion.div 
+            className="space-y-4 flex-1"
+            {...SYSTEM_MOUNT.runtime}
+            transition={{ ...SYSTEM_MOUNT.runtime.transition, delay: 0.15 }}
+          >
+            <div className="font-mono text-sm mb-2" style={{ color: colors.text.tertiary }}>
               {'> whoami'}
             </div>
-            <div className="font-mono text-white space-y-2">
+            <div className="font-mono space-y-2" style={{ color: colors.text.primary }}>
               <div className="text-2xl md:text-3xl font-semibold">{PROFILE.name}</div>
-              <div className="text-[#888] text-lg">{PROFILE.major}</div>
-              <div className="text-[#888] text-base">{PROFILE.university}</div>
-              <div className="text-[#666] text-sm mt-2">{PROFILE.citizenship} | {PROFILE.phone}</div>
-              <div className="text-[#666] text-sm mt-4">Focus: {PROFILE.focus}</div>
+              <div className="text-lg" style={{ color: colors.text.secondary }}>{PROFILE.major}</div>
+              <div className="text-base" style={{ color: colors.text.secondary }}>{PROFILE.university}</div>
+              <div className="text-sm mt-2" style={{ color: colors.text.tertiary }}>{PROFILE.citizenship} | {PROFILE.phone}</div>
+              <div className="text-sm mt-4" style={{ color: colors.text.tertiary }}>Focus: {PROFILE.focus}</div>
             </div>
 
             {/* Social Links */}
             <div className="flex items-center gap-3 pt-4">
-              <a
-                href={PROFILE.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 flex items-center justify-center bg-[#1a1a1a] border border-[#2a2a2a] rounded hover:bg-[#2a2a2a] transition-colors"
-                aria-label="GitHub"
-              >
-                <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                </svg>
-              </a>
-              <a
-                href={PROFILE.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 flex items-center justify-center bg-[#1a1a1a] border border-[#2a2a2a] rounded hover:bg-[#2a2a2a] transition-colors"
-                aria-label="LinkedIn"
-              >
-                <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                </svg>
-              </a>
-              <a
-                href={PROFILE.resume}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 flex items-center justify-center bg-[#1a1a1a] border border-[#2a2a2a] rounded hover:bg-[#2a2a2a] transition-colors"
-                aria-label="Resume"
-              >
-                <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                </svg>
-              </a>
-              <a
-                href={`mailto:${PROFILE.email}`}
-                className="w-10 h-10 flex items-center justify-center bg-[#1a1a1a] border border-[#2a2a2a] rounded hover:bg-[#2a2a2a] transition-colors"
-                aria-label="Email"
-              >
-                <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                </svg>
-              </a>
+              {[
+                { href: PROFILE.github, label: 'GitHub', icon: 'github' },
+                { href: PROFILE.linkedin, label: 'LinkedIn', icon: 'linkedin' },
+                { href: PROFILE.resume, label: 'Resume', icon: 'resume' },
+                { href: `mailto:${PROFILE.email}`, label: 'Email', icon: 'email' },
+              ].map((link, idx) => (
+                <motion.a
+                  key={idx}
+                  href={link.href}
+                  target={link.href.startsWith('mailto:') ? undefined : '_blank'}
+                  rel={link.href.startsWith('mailto:') ? undefined : 'noopener noreferrer'}
+                  className="w-10 h-10 flex items-center justify-center rounded transition-colors"
+                  style={{ 
+                    backgroundColor: colors.bg.elevated,
+                    borderColor: colors.border.hover,
+                    borderWidth: '1px',
+                    borderStyle: 'solid',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = colors.border.hover
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = colors.bg.elevated
+                  }}
+                  whileHover={{ opacity: 0.9 }}
+                  aria-label={link.label}
+                >
+                  {link.icon === 'github' && (
+                    <svg className="w-5 h-5" style={{ color: colors.text.primary }} fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                  )}
+                  {link.icon === 'linkedin' && (
+                    <svg className="w-5 h-5" style={{ color: colors.text.primary }} fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                    </svg>
+                  )}
+                  {link.icon === 'resume' && (
+                    <svg className="w-5 h-5" style={{ color: colors.text.primary }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                  )}
+                  {link.icon === 'email' && (
+                    <svg className="w-5 h-5" style={{ color: colors.text.primary }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                  )}
+                </motion.a>
+              ))}
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
-    </section>
+    </motion.section>
   )
 }
 
@@ -503,85 +586,127 @@ function ProjectsSection() {
     fetchProjectImages()
   }, [])
 
+  const colors = THEME.colors
+
   return (
-    <section className="py-12 px-6">
+    <motion.section 
+      className="py-12 px-6"
+      {...SYSTEM_MOUNT.runtime}
+    >
       <div className="max-w-7xl mx-auto">
-        <div className="font-mono text-[#666] text-sm mb-6">
+        <div className="font-mono text-sm mb-6" style={{ color: colors.text.tertiary }}>
           {'> ls projects/'}
         </div>
-        <div className="grid md:grid-cols-2 gap-4">
+        <motion.div 
+          className="grid md:grid-cols-2 gap-4"
+          variants={staggerContainerOS}
+          initial="hidden"
+          animate="visible"
+        >
           {PROJECTS.map((project, index) => (
-            <div
+            <motion.div
               key={index}
-              className="bg-[#0f0f0f] border border-[#2a2a2a] rounded-lg p-6 hover:border-[#3a3a3a] transition-colors"
+              className="rounded-lg p-6"
+              style={{ 
+                backgroundColor: colors.bg.surface,
+                borderColor: colors.border.hover,
+                borderWidth: '1px',
+                borderStyle: 'solid',
+              }}
+              variants={mountVariants}
+              whileHover={{ 
+                borderColor: colors.border.active,
+                opacity: 0.95,
+                boxShadow: `0 0 15px ${OS_COLORS.glow.low}`,
+                transition: { duration: 0.2 },
+              }}
             >
               <div className="flex items-start justify-between mb-3">
                 <div className="flex-1">
-                  <h3 className="font-mono text-xl text-white mb-2">{project.name}</h3>
+                  <motion.h3 
+                    className="font-mono text-xl mb-2" 
+                    style={{ color: colors.text.primary }}
+                    whileHover={{ 
+                      color: OS_COLORS.main,
+                      transition: { duration: 0.2 },
+                    }}
+                  >
+                    {project.name}
+                  </motion.h3>
                   <div className="flex items-center gap-2 mb-2">
-                    <div 
-                      className={`w-2 h-2 rounded-full ${
-                        (project as any).status === 'In Progress' ? 'bg-yellow-400' : 'bg-green-400'
-                      }`}
+                    <motion.div 
+                      className="w-2 h-2 rounded-full"
+                      style={{ 
+                        backgroundColor: (project as any).status === 'In Progress' 
+                          ? colors.secondary.main 
+                          : OS_COLORS.status
+                      }}
+                      animate={{ opacity: [1, 0.96, 1] }}
+                      transition={{ duration: 3, repeat: Infinity, repeatType: 'loop', ease: 'easeInOut' }}
                     />
-                    <span className="text-[#888] text-sm italic">
+                    <span className="text-sm italic" style={{ color: colors.text.secondary }}>
                       {(project as any).status || 'Complete'}
                     </span>
                   </div>
-                  <div className="text-[#888] text-sm mb-2">
-                    <span className="text-[#666]">Stack:</span> {project.techStack}
+                  <div className="text-sm mb-2" style={{ color: colors.text.secondary }}>
+                    <span style={{ color: colors.text.tertiary }}>Stack:</span> {project.techStack}
                   </div>
                 </div>
                 <div className="flex items-center gap-2 ml-4 flex-shrink-0">
-                  {(project as any).devpostUrl && (
-                    <a
-                      href={(project as any).devpostUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="px-3 py-1.5 bg-[#1a1a1a] border border-[#2a2a2a] rounded text-white text-sm hover:bg-[#2a2a2a] transition-colors font-mono"
-                    >
-                      devpost
-                    </a>
-                  )}
-                  {(project as any).demoUrl && (
-                    <a
-                      href={(project as any).demoUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="px-3 py-1.5 bg-[#1a1a1a] border border-[#2a2a2a] rounded text-white text-sm hover:bg-[#2a2a2a] transition-colors font-mono"
-                    >
-                      demo
-                    </a>
-                  )}
-                  {project.viewUrl && (
-                    <a
-                      href={project.viewUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="px-3 py-1.5 bg-[#1a1a1a] border border-[#2a2a2a] rounded text-white text-sm hover:bg-[#2a2a2a] transition-colors font-mono"
-                    >
-                      view
-                    </a>
-                  )}
-                  {project.repoUrl && (
-                    <a
-                      href={project.repoUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-10 h-10 flex items-center justify-center bg-[#1a1a1a] border border-[#2a2a2a] rounded hover:bg-[#2a2a2a] transition-colors"
-                      aria-label="GitHub Repository"
-                    >
-                      <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                      </svg>
-                    </a>
-                  )}
+                  {[(project as any).devpostUrl && { url: (project as any).devpostUrl, label: 'devpost' },
+                     (project as any).demoUrl && { url: (project as any).demoUrl, label: 'demo' },
+                     project.viewUrl && { url: project.viewUrl, label: 'view' },
+                     project.repoUrl && { url: project.repoUrl, label: 'repo', isIcon: true }]
+                    .filter(Boolean)
+                    .map((link: any, idx) => link.isIcon ? (
+                      <motion.a
+                        key={idx}
+                        href={link.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-10 h-10 flex items-center justify-center rounded transition-colors"
+                        style={{ 
+                          backgroundColor: colors.bg.elevated,
+                          borderColor: colors.border.hover,
+                          borderWidth: '1px',
+                          borderStyle: 'solid',
+                        }}
+                        onMouseEnter={(e) => e.currentTarget.style.backgroundColor = colors.border.hover}
+                        onMouseLeave={(e) => e.currentTarget.style.backgroundColor = colors.bg.elevated}
+                        whileHover={{ opacity: 0.9 }}
+                        aria-label="GitHub Repository"
+                      >
+                        <svg className="w-5 h-5" style={{ color: colors.text.primary }} fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                        </svg>
+                      </motion.a>
+                    ) : (
+                      <motion.a
+                        key={idx}
+                        href={link.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="px-3 py-1.5 rounded text-sm font-mono transition-colors"
+                        style={{ 
+                          backgroundColor: colors.bg.elevated,
+                          borderColor: colors.border.hover,
+                          borderWidth: '1px',
+                          borderStyle: 'solid',
+                          color: colors.text.primary,
+                        }}
+                        onMouseEnter={(e) => e.currentTarget.style.backgroundColor = colors.border.hover}
+                        onMouseLeave={(e) => e.currentTarget.style.backgroundColor = colors.bg.elevated}
+                        whileHover={{ opacity: 0.9 }}
+                      >
+                        {link.label}
+                      </motion.a>
+                    ))}
                 </div>
               </div>
-              <div className="text-[#888] text-sm mb-2">
-                <span className="text-[#666]">Focus:</span> {project.focus}
+              <div className="text-sm mb-2" style={{ color: colors.text.secondary }}>
+                <span style={{ color: colors.text.tertiary }}>Focus:</span> {project.focus}
               </div>
-              <div className="text-[#888] text-sm">
+              <div className="text-sm" style={{ color: colors.text.secondary }}>
                 {Array.isArray(project.impact) ? (
                   <ul className="ml-4 list-disc space-y-1">
                     {project.impact.map((point, idx) => (
@@ -593,22 +718,46 @@ function ProjectsSection() {
                 )}
               </div>
               {project.expanded && (
-                <div className="mt-4 pt-4 border-t border-[#2a2a2a] space-y-2 text-sm text-[#888]">
+                <div 
+                  className="mt-4 pt-4 space-y-2 text-sm"
+                  style={{ 
+                    borderTopColor: colors.border.hover,
+                    borderTopWidth: '1px',
+                    borderTopStyle: 'solid',
+                    color: colors.text.secondary,
+                  }}
+                >
                   <div>
-                    <span className="text-[#666] font-mono">Architecture:</span> {project.expanded.architecture}
+                    <span className="font-mono" style={{ color: colors.text.tertiary }}>Architecture:</span> {project.expanded.architecture}
                   </div>
                   <div>
-                    <span className="text-[#666] font-mono">Decisions:</span> {project.expanded.decisions}
+                    <span className="font-mono" style={{ color: colors.text.tertiary }}>Decisions:</span> {project.expanded.decisions}
                   </div>
                 </div>
               )}
               
               {/* Project Images */}
               {projectImages[index] && projectImages[index].length > 0 && (
-                <div className="mt-4 pt-4 border-t border-[#2a2a2a]">
+                <div 
+                  className="mt-4 pt-4"
+                  style={{ 
+                    borderTopColor: colors.border.hover,
+                    borderTopWidth: '1px',
+                    borderTopStyle: 'solid',
+                  }}
+                >
                   <div className="grid grid-cols-2 gap-3">
                     {projectImages[index].map((image, imgIndex) => (
-                      <div key={imgIndex} className="relative aspect-video rounded-lg overflow-hidden border border-[#2a2a2a] bg-[#1a1a1a]">
+                      <div 
+                        key={imgIndex} 
+                        className="relative aspect-video rounded-lg overflow-hidden"
+                        style={{ 
+                          borderColor: colors.border.hover,
+                          borderWidth: '1px',
+                          borderStyle: 'solid',
+                          backgroundColor: colors.bg.elevated,
+                        }}
+                      >
                         <Image
                           src={image}
                           alt={`${project.name} screenshot ${imgIndex + 1}`}
@@ -620,73 +769,151 @@ function ProjectsSection() {
                   </div>
                 </div>
               )}
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
-    </section>
+    </motion.section>
   )
 }
 
 function SkillsSection() {
+  const colors = THEME.colors
+  
   return (
-    <section className="py-12 px-6 bg-[#0a0a0a]">
+    <motion.section 
+      className="py-12 px-6"
+      style={{ backgroundColor: colors.bg.panel }}
+      {...SYSTEM_MOUNT.runtime}
+    >
       <div className="max-w-7xl mx-auto">
-        <div className="font-mono text-[#666] text-sm mb-6">
+        <div className="font-mono text-sm mb-6" style={{ color: colors.text.tertiary }}>
           {'> cat skills.txt'}
         </div>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <motion.div 
+          className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
+          variants={staggerContainerOS}
+          initial="hidden"
+          animate="visible"
+        >
           {Object.entries(SKILLS).map(([category, items]) => (
-            <div key={category} className="bg-[#0f0f0f] border border-[#2a2a2a] rounded-lg p-4">
-              <h3 className="font-mono text-white text-sm mb-3">{category}</h3>
+            <motion.div 
+              key={category} 
+              className="rounded-lg p-4"
+              style={{ 
+                backgroundColor: colors.bg.surface,
+                borderColor: colors.border.hover,
+                borderWidth: '1px',
+                borderStyle: 'solid',
+              }}
+              variants={mountVariants}
+              whileHover={{ 
+                opacity: 0.95,
+                borderColor: colors.border.active,
+                boxShadow: `0 0 12px ${OS_COLORS.glow.low}`,
+                transition: { duration: 0.2 },
+              }}
+            >
+              <motion.h3 
+                className="font-mono text-sm mb-3" 
+                style={{ color: colors.text.primary }}
+                whileHover={{ 
+                  color: OS_COLORS.main,
+                  transition: { duration: 0.2 },
+                }}
+              >
+                {category}
+              </motion.h3>
               <ul className="space-y-1">
                 {items.map((skill, index) => (
-                  <li key={index} className="text-[#888] text-sm">
+                  <li key={index} className="text-sm" style={{ color: colors.text.secondary }}>
                     {skill}
                   </li>
                 ))}
               </ul>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
-    </section>
+    </motion.section>
   )
 }
 
 function EducationSection() {
+  const colors = THEME.colors
+  
   return (
-    <section className="pt-4 pb-12 px-6">
+    <motion.section 
+      className="pt-4 pb-12 px-6"
+      {...SYSTEM_MOUNT.runtime}
+    >
       <div className="max-w-7xl mx-auto">
-        <div className="font-mono text-[#666] text-sm mb-6">
+        <div className="font-mono text-sm mb-6" style={{ color: colors.text.tertiary }}>
           {'> cat education.txt'}
         </div>
-        <div className="grid md:grid-cols-2 gap-4">
+        <motion.div 
+          className="grid md:grid-cols-2 gap-4"
+          variants={staggerContainerOS}
+          initial="hidden"
+          animate="visible"
+        >
           {EDUCATION.map((edu, index) => (
-            <div key={index} className="bg-[#0f0f0f] border border-[#2a2a2a] rounded-lg p-6">
+            <motion.div 
+              key={index} 
+              className="rounded-lg p-6"
+              style={{ 
+                backgroundColor: colors.bg.surface,
+                borderColor: colors.border.hover,
+                borderWidth: '1px',
+                borderStyle: 'solid',
+              }}
+              variants={mountVariants}
+              whileHover={{ 
+                opacity: 0.95,
+                borderColor: colors.border.active,
+                boxShadow: `0 0 12px ${OS_COLORS.glow.low}`,
+                transition: { duration: 0.2 },
+              }}
+            >
               <div className="flex items-start gap-4 mb-4">
                 <CompanyIcon company={edu.university} icon={(edu as any).icon} />
                 <div className="flex-1">
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
-                      <h3 className="font-mono text-white text-lg">{edu.degree}</h3>
-                      <div className="text-[#888] text-sm">{edu.university}</div>
+                      <motion.h3 
+                        className="font-mono text-lg" 
+                        style={{ color: colors.text.primary }}
+                        whileHover={{ 
+                          color: OS_COLORS.main,
+                          transition: { duration: 0.2 },
+                        }}
+                      >
+                        {edu.degree}
+                      </motion.h3>
+                      <div className="text-sm" style={{ color: colors.text.secondary }}>{edu.university}</div>
                     </div>
-                    <div className="text-[#666] text-sm font-mono text-right ml-4">{edu.graduation}</div>
+                    <div className="text-sm font-mono text-right ml-4" style={{ color: colors.text.tertiary }}>{edu.graduation}</div>
                   </div>
                 </div>
               </div>
               <div className="ml-14">
                 {edu.gpa && (
-                  <div className="text-[#888] text-xs mb-4">{edu.gpa}</div>
+                  <div className="text-xs mb-4" style={{ color: colors.text.secondary }}>{edu.gpa}</div>
                 )}
                 <div className="mt-4">
-                <div className="text-[#666] text-sm font-mono mb-2">Relevant Coursework:</div>
+                <div className="text-sm font-mono mb-2" style={{ color: colors.text.tertiary }}>Relevant Coursework:</div>
                 <div className="flex flex-wrap gap-2">
                   {edu.coursework.map((course, idx) => (
                     <span
                       key={idx}
-                      className="px-2 py-1 bg-[#1a1a1a] border border-[#2a2a2a] rounded text-[#888] text-xs"
+                      className="px-2 py-1 rounded text-xs"
+                      style={{ 
+                        backgroundColor: colors.bg.elevated,
+                        borderColor: colors.border.hover,
+                        borderWidth: '1px',
+                        borderStyle: 'solid',
+                        color: colors.text.secondary,
+                      }}
                     >
                       {course}
                     </span>
@@ -695,12 +922,19 @@ function EducationSection() {
               </div>
               {edu.honors && edu.honors.length > 0 && (
                 <div className="mt-4">
-                  <div className="text-[#666] text-sm font-mono mb-2">Honors & Awards:</div>
+                  <div className="text-sm font-mono mb-2" style={{ color: colors.text.tertiary }}>Honors & Awards:</div>
                   <div className="flex flex-wrap gap-2">
                     {edu.honors.map((honor, idx) => (
                       <span
                         key={idx}
-                        className="px-2 py-1 bg-[#1a1a1a] border border-[#2a2a2a] rounded text-[#888] text-xs"
+                        className="px-2 py-1 rounded text-xs"
+                        style={{ 
+                          backgroundColor: colors.bg.elevated,
+                          borderColor: colors.border.hover,
+                          borderWidth: '1px',
+                          borderStyle: 'solid',
+                          color: colors.text.secondary,
+                        }}
                       >
                         {honor}
                       </span>
@@ -710,12 +944,19 @@ function EducationSection() {
               )}
               {edu.organizations && edu.organizations.length > 0 && (
                 <div className="mt-4">
-                  <div className="text-[#666] text-sm font-mono mb-2">Organizations:</div>
+                  <div className="text-sm font-mono mb-2" style={{ color: colors.text.tertiary }}>Organizations:</div>
                   <div className="flex flex-wrap gap-2">
                     {edu.organizations.map((org, idx) => (
                       <span
                         key={idx}
-                        className="px-2 py-1 bg-[#1a1a1a] border border-[#2a2a2a] rounded text-[#888] text-xs"
+                        className="px-2 py-1 rounded text-xs"
+                        style={{ 
+                          backgroundColor: colors.bg.elevated,
+                          borderColor: colors.border.hover,
+                          borderWidth: '1px',
+                          borderStyle: 'solid',
+                          color: colors.text.secondary,
+                        }}
                       >
                         {org}
                       </span>
@@ -724,126 +965,237 @@ function EducationSection() {
                 </div>
               )}
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
-    </section>
+    </motion.section>
   )
 }
 
 function ExperienceSection() {
+  const colors = THEME.colors
+  
   if (EXPERIENCE.length === 0) return null
 
   return (
-    <section className="py-12 px-6 bg-[#0a0a0a]">
+    <motion.section 
+      className="py-12 px-6"
+      style={{ backgroundColor: colors.bg.panel }}
+      {...SYSTEM_MOUNT.runtime}
+    >
       <div className="max-w-7xl mx-auto">
-        <div className="font-mono text-[#666] text-sm mb-6">
+        <div className="font-mono text-sm mb-6" style={{ color: colors.text.tertiary }}>
           {'> cat experience.txt'}
         </div>
-        <div className="space-y-4">
+        <motion.div 
+          className="space-y-4"
+          variants={staggerContainerOS}
+          initial="hidden"
+          animate="visible"
+        >
           {EXPERIENCE.map((exp, index) => (
-            <div key={index} className="bg-[#0f0f0f] border border-[#2a2a2a] rounded-lg p-6">
+            <motion.div 
+              key={index} 
+              className="rounded-lg p-6"
+              style={{ 
+                backgroundColor: colors.bg.surface,
+                borderColor: colors.border.hover,
+                borderWidth: '1px',
+                borderStyle: 'solid',
+              }}
+              variants={mountVariants}
+              whileHover={{ 
+                opacity: 0.95,
+                borderColor: colors.border.active,
+                boxShadow: `0 0 12px ${OS_COLORS.glow.low}`,
+                transition: { duration: 0.2 },
+              }}
+            >
               <div className="flex items-start gap-4 mb-2">
                 <CompanyIcon company={exp.company} icon={(exp as any).icon} />
                 <div className="flex-1">
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
-                      <h3 className="font-mono text-white text-lg">{exp.role}</h3>
-                      <div className="text-[#888] text-sm">{exp.company}</div>
+                      <motion.h3 
+                        className="font-mono text-lg" 
+                        style={{ color: colors.text.primary }}
+                        whileHover={{ 
+                          color: OS_COLORS.main,
+                          transition: { duration: 0.2 },
+                        }}
+                      >
+                        {exp.role}
+                      </motion.h3>
+                      <div className="text-sm" style={{ color: colors.text.secondary }}>{exp.company}</div>
                     </div>
-                    <div className="text-[#666] text-sm font-mono ml-4">{exp.period}</div>
+                    <div className="text-sm font-mono ml-4" style={{ color: colors.text.tertiary }}>{exp.period}</div>
                   </div>
                 </div>
               </div>
               {exp.description && (
                 <div className="ml-14">
                   {Array.isArray(exp.description) ? (
-                    <ul className="text-[#888] text-sm mt-2 leading-relaxed space-y-1 list-disc list-inside">
+                    <ul className="text-sm mt-2 leading-relaxed space-y-1 list-disc list-inside" style={{ color: colors.text.secondary }}>
                       {exp.description.map((point, idx) => (
                         <li key={idx}>{point}</li>
                       ))}
                     </ul>
                   ) : (
-                    <p className="text-[#888] text-sm mt-2 leading-relaxed">{exp.description}</p>
+                    <p className="text-sm mt-2 leading-relaxed" style={{ color: colors.text.secondary }}>{exp.description}</p>
                   )}
                 </div>
               )}
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
-    </section>
+    </motion.section>
   )
 }
 
 function TechnicalInterestsSection() {
+  const colors = THEME.colors
+  
   return (
-    <section className="py-12 px-6 bg-[#0a0a0a]">
+    <motion.section 
+      className="py-12 px-6"
+      style={{ backgroundColor: colors.bg.panel }}
+      {...SYSTEM_MOUNT.runtime}
+    >
       <div className="max-w-7xl mx-auto">
-        <div className="font-mono text-[#666] text-sm mb-6">
+        <div className="font-mono text-sm mb-6" style={{ color: colors.text.tertiary }}>
           {'> cat interests.txt'}
         </div>
-        <div className="bg-[#0f0f0f] border border-[#2a2a2a] rounded-lg p-6">
+        <motion.div 
+          className="rounded-lg p-6"
+          style={{ 
+            backgroundColor: colors.bg.surface,
+            borderColor: colors.border.hover,
+            borderWidth: '1px',
+            borderStyle: 'solid',
+          }}
+          {...SYSTEM_MOUNT.runtime}
+          whileHover={{ 
+            borderColor: colors.border.active,
+            boxShadow: `0 0 12px ${OS_COLORS.glow.low}`,
+            transition: { duration: 0.2 },
+          }}
+        >
           <ul className="space-y-2">
             {TECHNICAL_INTERESTS.map((interest, index) => (
-              <li key={index} className="text-[#888] text-sm">
+              <li key={index} className="text-sm" style={{ color: colors.text.secondary }}>
                 • {interest}
               </li>
             ))}
           </ul>
-        </div>
+        </motion.div>
       </div>
-    </section>
+    </motion.section>
   )
 }
 
 function CareerTrajectorySection() {
+  const colors = THEME.colors
+  
   return (
-    <section className="py-12 px-6">
+    <motion.section 
+      className="py-12 px-6"
+      {...SYSTEM_MOUNT.runtime}
+    >
       <div className="max-w-7xl mx-auto">
-        <div className="font-mono text-[#666] text-sm mb-6">
+        <div className="font-mono text-sm mb-6" style={{ color: colors.text.tertiary }}>
           {'> cat trajectory.txt'}
         </div>
-        <div className="bg-[#0f0f0f] border border-[#2a2a2a] rounded-lg p-6">
-          <p className="text-[#888] text-sm leading-relaxed">{CAREER_TRAJECTORY}</p>
-        </div>
+        <motion.div 
+          className="rounded-lg p-6"
+          style={{ 
+            backgroundColor: colors.bg.surface,
+            borderColor: colors.border.hover,
+            borderWidth: '1px',
+            borderStyle: 'solid',
+          }}
+          {...SYSTEM_MOUNT.runtime}
+          transition={{ ...SYSTEM_MOUNT.runtime.transition, delay: 0.1 }}
+          whileHover={{ 
+            borderColor: colors.border.active,
+            boxShadow: `0 0 12px ${OS_COLORS.glow.low}`,
+            transition: { duration: 0.2 },
+          }}
+        >
+          <p className="text-sm leading-relaxed" style={{ color: colors.text.secondary }}>{CAREER_TRAJECTORY}</p>
+        </motion.div>
       </div>
-    </section>
+    </motion.section>
   )
 }
 
 function LicensesCertificationsSection() {
+  const colors = THEME.colors
+  
   if (LICENSES_CERTIFICATIONS.length === 0) return null
 
   return (
-    <section className="py-12 px-6 bg-[#0a0a0a]">
+    <motion.section 
+      className="py-12 px-6"
+      style={{ backgroundColor: colors.bg.panel }}
+      {...SYSTEM_MOUNT.runtime}
+    >
       <div className="max-w-7xl mx-auto">
-        <div className="font-mono text-[#666] text-sm mb-6">
+        <div className="font-mono text-sm mb-6" style={{ color: colors.text.tertiary }}>
           {'> ls licenses_certifications/'}
         </div>
-        <div className="space-y-3">
+        <motion.div 
+          className="space-y-3"
+          variants={staggerContainerOS}
+          initial="hidden"
+          animate="visible"
+        >
           {LICENSES_CERTIFICATIONS.map((cert, index) => (
-            <div key={index} className="bg-[#0f0f0f] border border-[#2a2a2a] rounded-lg p-4">
+            <motion.div 
+              key={index} 
+              className="rounded-lg p-4"
+              style={{ 
+                backgroundColor: colors.bg.surface,
+                borderColor: colors.border.hover,
+                borderWidth: '1px',
+                borderStyle: 'solid',
+              }}
+              variants={mountVariants}
+              whileHover={{ 
+                opacity: 0.95,
+                borderColor: colors.border.active,
+                boxShadow: `0 0 10px ${OS_COLORS.glow.low}`,
+                transition: { duration: 0.2 },
+              }}
+            >
               <div className="flex items-start justify-between">
                 <div>
-                  <h3 className="font-mono text-white text-sm">{cert.name}</h3>
-                  <div className="text-[#888] text-xs mt-1">{cert.issuer}</div>
+                  <h3 className="font-mono text-sm" style={{ color: colors.text.primary }}>{cert.name}</h3>
+                  <div className="text-xs mt-1" style={{ color: colors.text.secondary }}>{cert.issuer}</div>
                 </div>
-                <div className="text-[#666] text-xs font-mono">{cert.year}</div>
+                <div className="text-xs font-mono" style={{ color: colors.text.tertiary }}>{cert.year}</div>
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
-    </section>
+    </motion.section>
   )
 }
 
 // ===== Main Page =====
 export default function ProfessionalPage() {
+  const colors = THEME.colors
+  
   return (
-    <main className="min-h-screen bg-[#0a0a0a] text-white" style={{ zoom: 0.9 }}>
+    <main 
+      className="min-h-screen text-white" 
+      style={{ 
+        zoom: 0.9,
+        backgroundColor: colors.bg.panel,
+      }}
+    >
       <SystemHeader />
       <div className="pt-12">
         <HeroSection />
@@ -856,13 +1208,21 @@ export default function ProfessionalPage() {
         <LicensesCertificationsSection />
         
         {/* Footer */}
-        <footer className="py-8 px-6 border-t border-[#1a1a1a] mt-12">
+        <motion.footer 
+          className="py-8 px-6 mt-12"
+          style={{ 
+            borderTopColor: colors.border.default,
+            borderTopWidth: '1px',
+            borderTopStyle: 'solid',
+          }}
+          {...SYSTEM_MOUNT.runtime}
+        >
           <div className="max-w-7xl mx-auto text-center">
-            <div className="font-mono text-[#666] text-xs">
+            <div className="font-mono text-xs" style={{ color: colors.text.tertiary }}>
               {'> exit'}
             </div>
           </div>
-        </footer>
+        </motion.footer>
       </div>
     </main>
   )
