@@ -98,7 +98,7 @@ export const GLOW_FEEDBACK = {
           '0 0 14px rgba(59, 130, 246, 0.28)', // ~30% reduction
           '0 0 21px rgba(34, 211, 238, 0.35)', // ~30% reduction
           '0 0 14px rgba(59, 130, 246, 0.28)',
-        ],
+        ] as string[],
         transition: { duration: 0.5, repeat: Infinity, repeatType: 'reverse' as const }, // Slower
       },
     },
@@ -113,7 +113,7 @@ export const GLOW_FEEDBACK = {
           '0 0 20px rgba(59, 130, 246, 0.5)',
           '0 0 30px rgba(34, 211, 238, 0.6)',
           '0 0 20px rgba(59, 130, 246, 0.5)',
-        ],
+        ] as string[],
         transition: { duration: 0.3, repeat: Infinity, repeatType: 'reverse' as const },
       },
     },
@@ -127,7 +127,7 @@ export const GLOW_FEEDBACK = {
         '0 0 20px rgba(59, 130, 246, 0.4)',
         '0 0 30px rgba(34, 211, 238, 0.5)',
         '0 0 20px rgba(59, 130, 246, 0.4)',
-      ],
+      ] as string[],
       transition: { duration: 0.3, repeat: Infinity, repeatType: 'reverse' as const },
     },
   },
@@ -143,7 +143,7 @@ export const GLOW_FEEDBACK = {
       transition: { duration: 0.3 },
     },
   },
-} as const
+}
 
 // ===== TERMINAL_LIFE =====
 // Cursor blink and subtle pulse animations
