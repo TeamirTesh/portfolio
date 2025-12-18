@@ -899,15 +899,18 @@ export default function PersonalPage() {
                                   }
                                 }}
                               >
-                                <Image
+                                <img
                                   src={image}
                                   alt={`${era.eraTitle} ${imgIdx + 1}`}
-                                  fill
-                                  className="object-cover transition-all"
+                                  className="absolute inset-0 w-full h-full object-cover transition-all"
                                   style={{
                                     transitionDuration: '150ms',
                                     transitionTimingFunction: 'ease-out',
                                     transform: image === '/images/personal/age19_3.jpg' ? 'rotate(90deg)' : 'none',
+                                  }}
+                                  onError={(e) => {
+                                    console.error('Image failed to load:', image)
+                                    e.currentTarget.style.display = 'none'
                                   }}
                                 />
                               </div>

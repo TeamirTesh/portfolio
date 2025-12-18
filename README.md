@@ -1,4 +1,4 @@
-# Teamir Teshome - Portfolio
+g# Teamir Teshome - Portfolio
 
 A dual-mode portfolio website with an OS-themed interface, combining professional experience display with personal reflection layers. Built with Next.js, TypeScript, and Framer Motion.
 
