@@ -906,7 +906,7 @@ export default function PersonalPage() {
                                   style={{
                                     transitionDuration: '150ms',
                                     transitionTimingFunction: 'ease-out',
-                                    transform: image === '/images/personal/age19_3.jpg' ? 'rotate(90deg)' : 'none',
+                                    transform: 'none',
                                   }}
                                   onError={(e) => {
                                     console.error('Image failed to load:', image)
