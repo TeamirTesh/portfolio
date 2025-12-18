@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useMemo } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion, AnimatePresence, useAnimation } from 'framer-motion'
@@ -365,14 +365,14 @@ export default function PersonalPage() {
     }
   }, [currentEra])
 
-  const navSections: { id: NavSection; label: string }[] = [
+  const navSections: { id: NavSection; label: string }[] = useMemo(() => [
     { id: 'timeline', label: 'My Story' },
     { id: 'journal', label: 'Journal' },
     { id: 'notes', label: 'Notes' },
     { id: 'media', label: 'Life' },
     { id: 'languages', label: 'Languages' },
     { id: 'interests', label: 'Interests' },
-  ]
+  ], [])
 
   const [activeNavSection, setActiveNavSection] = useState<NavSection | null>(null)
 
@@ -396,7 +396,7 @@ export default function PersonalPage() {
     window.addEventListener('scroll', handleScroll, { passive: true })
     handleScroll() // Initial check
     return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+  }, [navSections])
 
   return (
     <main 
@@ -634,7 +634,7 @@ export default function PersonalPage() {
                     Greetings! This page is to get to know me more personally.
                     <br />
                     <br />
-                    If you're just looking to learn about my technical background, please visit{' '}
+                    If you&apos;re just looking to learn about my technical background, please visit{' '}
                     <Link 
                       href="/professional"
                       className="underline transition-colors"

@@ -458,9 +458,11 @@ function CompanyIcon({ company, icon }: { company: string; icon?: string }) {
           borderStyle: 'solid',
         }}
       >
-        <img 
+        <Image 
           src={imageSrc} 
           alt={company} 
+          width={200}
+          height={100}
           style={imageStyle}
           className="object-contain"
           onLoad={handleImageLoad}
