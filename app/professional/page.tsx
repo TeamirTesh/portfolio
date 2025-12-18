@@ -126,9 +126,9 @@ const PROJECTS = [
     techStack: 'Next.js, TypeScript, React, Framer Motion, Tailwind CSS, Next.js Image Optimization',
     focus: 'Dual-mode portfolio website with OS-themed professional interface and personal reflection layer',
     impact: [
-      'Designed and implemented a bootloader-style landing page that presents two distinct modes (mir.exe and mir.raw) with terminal-inspired UI and smooth navigation transitions.',
-      'Built a professional OS-themed interface (mir.exe) that displays projects, education, and technical experience using system-inspired components with status indicators and process management metaphors.',
-      'Developed a personal reflection layer (mir.raw) featuring a horizontal scrolling timeline, paginated journal entries, media gallery, and curated personal metadata with warm, low-contrast dark aesthetic.',
+      'Designed and implemented a bootloader-style landing page that presents two distinct modes (teamir.exe and teamir.raw) with terminal-inspired UI and smooth navigation transitions.',
+      'Built a professional OS-themed interface (teamir.exe) that displays projects, education, and technical experience using system-inspired components with status indicators and process management metaphors.',
+      'Developed a personal reflection layer (teamir.raw) featuring a horizontal scrolling timeline, paginated journal entries, media gallery, and curated personal metadata with warm, low-contrast dark aesthetic.',
       'Engineered a centralized theme system with shared color palettes and motion presets to ensure visual consistency across landing, professional, and personal pages.',
       'Implemented a motion-only tricolor accent system that reveals Ethiopian identity through subtle animated color sweeps on interactive elements while maintaining a minimal monochrome resting state.',
       'Created reusable animation components using Framer Motion with useAnimation hooks to enable persistent hover effects that play tricolor sequences and maintain enhanced states during interaction.',
@@ -506,7 +506,7 @@ function SystemHeader() {
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between text-sm">
         <div className="flex items-center gap-6 font-mono" style={{ color: colors.text.secondary }}>
-          <span style={{ color: colors.text.primary }}>mir.exe</span>
+          <span style={{ color: colors.text.primary }}>teamir.exe</span>
           <span style={{ color: colors.text.tertiary }}>—</span>
           <span>Professional Runtime Environment</span>
           <span style={{ color: colors.text.tertiary }}>|</span>

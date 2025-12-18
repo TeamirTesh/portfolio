@@ -33,7 +33,7 @@ export default function Home() {
       {/* Terminal prompt - top-left */}
       <div className="absolute top-6 left-6 md:top-8 md:left-8 z-10">
         <div className="font-mono text-sm md:text-base" style={{ color: LANDING_COLORS.main }}>
-          <span style={{ color: colors.text.secondary }}>mir@boot</span>
+          <span style={{ color: colors.text.secondary }}>teamir@boot</span>
           <span style={{ color: colors.text.tertiary }}>:</span>
           <span style={{ color: LANDING_COLORS.main }}>~</span>
           <span style={{ color: colors.text.tertiary }}>$</span>
@@ -50,7 +50,7 @@ export default function Home() {
       {/* Main content - centered */}
       <div className="relative z-10 min-h-screen flex flex-col items-center justify-center px-4 py-8">
         <div className="w-full max-w-2xl mx-auto">
-          {/* Dominant mir.exe executable card */}
+          {/* Dominant teamir.exe executable card */}
           <motion.div
             className="mb-12"
             {...SYSTEM_MOUNT.boot}
@@ -87,7 +87,7 @@ export default function Home() {
                 <div className="space-y-4 mb-6">
                   <div className="flex items-center gap-3">
                     <span className="font-mono text-xs md:text-sm" style={{ color: colors.text.tertiary }}>NAME:</span>
-                    <span className="font-mono text-lg md:text-xl font-semibold" style={{ color: LANDING_COLORS.main }}>mir.exe</span>
+                    <span className="font-mono text-lg md:text-xl font-semibold" style={{ color: LANDING_COLORS.main }}>teamir.exe</span>
                   </div>
 
                   <div className="flex items-center gap-3">
@@ -160,7 +160,7 @@ export default function Home() {
             </motion.div>
           </motion.div>
 
-          {/* Secondary mir.raw link */}
+          {/* Secondary teamir.raw link */}
           <motion.div
             className="text-center"
             {...SYSTEM_MOUNT.boot}
@@ -201,7 +201,7 @@ export default function Home() {
                   },
                 }}
               >
-                <span style={{ color: colors.text.secondary }}>mir.raw</span>
+                <span style={{ color: colors.text.secondary }}>teamir.raw</span>
                 <span className="ml-2" style={{ color: colors.text.muted }}>—</span>
                 <span className="ml-2" style={{ color: colors.text.tertiary }}>personal logs, culture, journey</span>
               </motion.div>

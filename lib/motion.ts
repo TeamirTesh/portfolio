@@ -85,7 +85,7 @@ export const STATUS_FEEDBACK = {
 
 // Glow intensity transitions
 export const GLOW_FEEDBACK = {
-  // For mir.exe (blue/green)
+  // For teamir.exe (blue/green)
   primary: {
     // Landing - reduced intensity, slower
     landing: {
@@ -132,7 +132,7 @@ export const GLOW_FEEDBACK = {
     },
   },
 
-  // For mir.raw (amber)
+  // For teamir.raw (amber)
   secondary: {
     idle: {
       textShadow: 'none',

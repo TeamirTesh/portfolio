@@ -67,9 +67,9 @@ const TIMELINE_ERAS = [
     description: 'Born in Atlanta, GA',
     obsessions: ['Family', 'Discovery', 'Roots'],
     images: [
-      '/images/personal/Age0_1.jpg',
-      '/images/personal/Age0_2.jpg',
-      '/images/personal/Age0_3.jpg',
+      '/images/personal/age0_1.jpg',
+      '/images/personal/age0_2.jpg',
+      '/images/personal/age0_3.jpg',
     ],
     bgTint: 0,
   },
@@ -80,9 +80,9 @@ const TIMELINE_ERAS = [
     description: 'Spent 6 beautiful years in Addis Ababa, Ethiopia',
     obsessions: ['Culture', 'Language', 'Connection', 'Home'],
     images: [
-      '/images/personal/Age0to6_1.jpg',
-      '/images/personal/Age0to6_2.jpg',
-      '/images/personal/Age0to6_3.jpg',
+      '/images/personal/age0to6_1.JPG',
+      '/images/personal/age0to6_2.jpg',
+      '/images/personal/age0to6_3.jpg',
     ],
     bgTint: 1,
   },
@@ -93,9 +93,9 @@ const TIMELINE_ERAS = [
     description: 'Returned to Atlanta, GA.\nAssimilated, made plenty of friends, adapted to my new life.',
     obsessions: ['Identity', 'Belonging', 'Learning', 'Transition'],
     images: [
-      '/images/personal/Age6to12_1.jpg',
-      '/images/personal/Age6to12_2.jpg',
-      '/images/personal/Age6to12_3.jpg',
+      '/images/personal/age6to12_1.JPG',
+      '/images/personal/age6to12_2.JPG',
+      '/images/personal/age6to12_3.jpg',
     ],
     bgTint: 0,
   },
@@ -106,9 +106,9 @@ const TIMELINE_ERAS = [
     description: 'Gamed HARD.\nCall of Duty, Fortnite, 2k, GTA, Overwatch, Rocket League, Brawlhalla',
     obsessions: ['COD', 'Minecraft', 'GTA', '2K', 'Overwatch', 'Brawlhalla', 'Competition'],
     images: [
-      '/images/personal/Age12to16_1.jpg',
+      '/images/personal/age12to16_1.jpg',
       '/images/personal/Age12to16_2.jpg',
-      '/images/personal/Age12to16_3.jpg',
+      '/images/personal/age12to16_3.jpg',
     ],
     bgTint: 2,
   },
@@ -119,9 +119,9 @@ const TIMELINE_ERAS = [
     description: 'Re-focused energy into self cultivation.\nSaved up and bought my first car cash.\nGym, Nutrition, and Money became the center of my life.',
     obsessions: ['Gym', 'Nutrition', 'Work Ethic', 'Financial Responsibility'],
     images: [
-      '/images/personal/Age16plus_1.jpg',
-      '/images/personal/Age16plus_2.jpg',
-      '/images/personal/Age16plus_3.jpg',
+      '/images/personal/age16plus_1.jpg',
+      '/images/personal/age16plus_2.jpg',
+      '/images/personal/age16plus_3.jpg',
     ],
     bgTint: 0,
   },
@@ -132,9 +132,9 @@ const TIMELINE_ERAS = [
     description: 'Graduated from Dekalb Early College Academy with honors and 60 Early College credits from Georgia State University.',
     obsessions: ['Achievement', 'Early College', '60 Credits', 'Momentum'],
     images: [
-      '/images/personal/Age18_1.jpg',
-      '/images/personal/Age18_2.jpg',
-      '/images/personal/Age18_3.jpg',
+      '/images/personal/age18_1.jpg',
+      '/images/personal/age18_2.jpg',
+      '/images/personal/age18_3.jpg',
     ],
     bgTint: 1,
   },
@@ -145,9 +145,9 @@ const TIMELINE_ERAS = [
     description: 'Re-defined "Self Cultivation".\nGod, Family, and my Career now being the centers of my life.\nMy life looks like: Daily Gym, Projects, Networking+Applications, Family time.\nChurch Sunday',
     obsessions: ['Computer Science', 'Projects', 'Internships', 'Career Development', 'Building'],
     images: [
-      '/images/personal/Age19_1.jpg',
-      '/images/personal/Age19_2.jpg',
-      '/images/personal/Age19_3.jpg',
+      '/images/personal/age19_1.jpg',
+      '/images/personal/age19_2.jpg',
+      '/images/personal/age19_3.jpg',
     ],
     bgTint: 1,
   },
@@ -158,9 +158,9 @@ const TIMELINE_ERAS = [
     description: 'Graduate with B.S in Computer Science from Georgia State University.\nBegin OMSCS in Computer Science w/ ML Specialization.\nBegin New Grad Software Engineering Role',
     obsessions: ['Graduation', 'Reflection', 'Transition', 'Next Chapter'],
     images: [
-      '/images/personal/Age20_1.jpg',
-      '/images/personal/Age20_2.jpg',
-      '/images/personal/Age20_3.jpg',
+      '/images/personal/age20_1.jpg',
+      '/images/personal/age20_2.jpg',
+      '/images/personal/age20_3.jpg',
     ],
     bgTint: 0,
   },
@@ -419,7 +419,7 @@ export default function PersonalPage() {
         <div className="max-w-7xl mx-auto flex items-center justify-between text-sm">
           {/* Left Side - Identity */}
           <div className="flex items-center gap-6 font-mono" style={{ color: RAW_COLORS.text.secondary }}>
-            <span style={{ color: RAW_COLORS.text.primary }}>mir.raw</span>
+            <span style={{ color: RAW_COLORS.text.primary }}>teamir.raw</span>
             <span style={{ color: RAW_COLORS.text.tertiary }}>—</span>
             <span>Personal Logs</span>
             <span style={{ color: RAW_COLORS.text.tertiary }}>|</span>
@@ -513,8 +513,8 @@ export default function PersonalPage() {
             ))}
             <span style={{ color: RAW_COLORS.text.tertiary }}>|</span>
             <motion.div className="relative">
-              <Link 
-                href="/"
+        <Link
+          href="/"
                 className="font-mono text-xs block"
                 style={{ color: RAW_COLORS.text.secondary }}
               >
@@ -646,7 +646,7 @@ export default function PersonalPage() {
                         e.currentTarget.style.color = RAW_COLORS.accent.blue
                       }}
                     >
-                      mir.exe
+                      teamir.exe
                     </Link>
                   </div>
                 </div>
@@ -907,7 +907,7 @@ export default function PersonalPage() {
                                   style={{
                                     transitionDuration: '150ms',
                                     transitionTimingFunction: 'ease-out',
-                                    transform: image === '/images/personal/Age19_3.jpg' ? 'rotate(90deg)' : 'none',
+                                    transform: image === '/images/personal/age19_3.jpg' ? 'rotate(90deg)' : 'none',
                                   }}
                                 />
                               </div>
@@ -1474,9 +1474,9 @@ export default function PersonalPage() {
                     },
                   }}
                 />
-              </Link>
+        </Link>
             </motion.div>
-          </div>
+      </div>
         </motion.footer>
       </motion.div>
     </main>

@@ -28,7 +28,7 @@ export const COLORS = {
     muted: '#555555',        // Muted text
   },
 
-  // mir.exe (Primary - Blue/Green)
+  // teamir.exe (Primary - Blue/Green)
   primary: {
     // Landing (bootloader) - muted/desaturated
     landing: {
@@ -74,7 +74,7 @@ export const COLORS = {
     statusActive: '#00ff00',
   },
 
-  // mir.raw (Secondary - Amber/Gold)
+  // teamir.raw (Secondary - Amber/Gold)
   secondary: {
     main: '#d4a017',         // Amber/gold (secondary accent)
     glow: {
@@ -85,7 +85,7 @@ export const COLORS = {
     hover: '#d4a017',        // Hover color
   },
 
-  // mir.raw (Personal page - Soft Low-Contrast Dark OS)
+  // teamir.raw (Personal page - Soft Low-Contrast Dark OS)
   // Calm, intimate, reflective dark aesthetic (macOS dark Finder / Linear dark / Raycast dark)
   raw: {
     bg: {
@@ -107,8 +107,8 @@ export const COLORS = {
       divider: '#2e2e2e',     // Subtle divider line
     },
     accent: {
-      // Same blue as mir.exe but desaturated for low-contrast dark mode
-      blue: '#5a9de8',        // Desaturated blue (softer than mir.exe)
+      // Same blue as teamir.exe but desaturated for low-contrast dark mode
+      blue: '#5a9de8',        // Desaturated blue (softer than teamir.exe)
       blueLight: '#6ba8f0',   // Lighter blue
       blueDark: '#4a8dd0',    // Darker blue
     },

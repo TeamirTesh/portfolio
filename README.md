@@ -26,7 +26,7 @@ The portfolio consists of three main pages:
 
 1. **Landing Page** (`app/page.tsx`)
    - Bootloader-style interface
-   - Two entry points: `mir.exe` (professional) and `mir.raw` (personal)
+   - Two entry points: `teamir.exe` (professional) and `teamir.raw` (personal)
    - Terminal-inspired UI with boot animations
 
 2. **Professional Page** (`app/professional/page.tsx`)
@@ -45,8 +45,8 @@ The theme is centralized in `lib/theme.ts`:
 
 - **Color Hierarchy**: Different color intensities for landing (muted) vs OS (saturated)
 - **Dual Mode Colors**: 
-  - `mir.exe`: Terminal green/blue accents
-  - `mir.raw`: Soft low-contrast dark with warm tones
+  - `teamir.exe`: Terminal green/blue accents
+  - `teamir.raw`: Soft low-contrast dark with warm tones
 - **Consistent Palette**: Shared color tokens across all pages
 
 ### Motion System
