@@ -1,6 +1,6 @@
 /**
  * Framer Motion presets for system-wide consistency
- * 
+ * /
  * - SYSTEM_MOUNT: Fade + slight rise (for sections, cards, panels)
  * - STATUS_FEEDBACK: Fast hover/state transitions
  * - TERMINAL_LIFE: Cursor blink / subtle pulse
