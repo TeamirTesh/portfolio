@@ -176,11 +176,29 @@ export default function Home() {
                 className="font-mono text-sm md:text-base transition-colors"
                 style={{ color: colors.text.tertiary }}
                 animate={mirRawHovered ? {
-                  textShadow: '0 0 8px rgba(212, 160, 23, 0.35)', // Reduced glow
-                  transition: { duration: 0.4 },
+                  textShadow: [
+                    '0 0 10px rgba(0, 204, 0, 1), 0 0 20px rgba(0, 204, 0, 0.5), 0 0 30px rgba(0, 204, 0, 0.25)',
+                    '0 0 15px rgba(0, 204, 0, 1), 0 0 25px rgba(0, 204, 0, 0.63), 0 0 35px rgba(0, 204, 0, 0.38)',
+                    '0 0 10px rgba(0, 204, 0, 1), 0 0 20px rgba(0, 204, 0, 0.5), 0 0 30px rgba(0, 204, 0, 0.25)',
+                  ],
+                  scale: 1.02,
+                  transition: { 
+                    duration: 1.5,
+                    repeat: Infinity,
+                    ease: 'easeInOut',
+                  },
                 } : {
-                  textShadow: 'none',
-                  transition: { duration: 0.4 },
+                  textShadow: [
+                    '0 0 4px rgba(0, 204, 0, 0.4), 0 0 8px rgba(0, 204, 0, 0.2), 0 0 12px rgba(0, 204, 0, 0.1)',
+                    '0 0 6px rgba(0, 204, 0, 0.5), 0 0 10px rgba(0, 204, 0, 0.3), 0 0 14px rgba(0, 204, 0, 0.15)',
+                    '0 0 4px rgba(0, 204, 0, 0.4), 0 0 8px rgba(0, 204, 0, 0.2), 0 0 12px rgba(0, 204, 0, 0.1)',
+                  ],
+                  scale: 1,
+                  transition: { 
+                    duration: 2,
+                    repeat: Infinity,
+                    ease: 'easeInOut',
+                  },
                 }}
               >
                 <span style={{ color: colors.text.secondary }}>mir.raw</span>

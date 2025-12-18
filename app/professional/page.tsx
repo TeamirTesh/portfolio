@@ -10,13 +10,13 @@ import { SYSTEM_MOUNT, staggerContainer, staggerContainerOS, mountVariants, TERM
 // OS page uses saturated colors
 const OS_COLORS = THEME.colors.primary.os
 
-// ===== CONFIGURATION - Easy to update for recruiters =====
+// Profile configuration
 const PROFILE = {
   name: 'Teamir Teshome',
   role: 'Software Engineer',
   major: 'Computer Science',
   university: 'Georgia State University',
-  graduation: 'Dec 2026',
+  graduation: 'Aug 2026',
   focus: 'Full-Stack Development, AI/ML',
   email: 'teamirteshome1@gmail.com',
   github: 'https://github.com/TeamirTesh',
@@ -72,6 +72,29 @@ const PROJECTS = [
     },
   },
   {
+    name: 'Spamify.ML',
+    status: 'STABLE',
+    processType: 'EXPERIMENTAL',
+    isFlagship: false,
+    techStack: 'Python, scikit-learn, Pandas, NumPy, TF-IDF, Linear SVM',
+    focus: 'End-to-end email spam detection using traditional NLP techniques with emphasis on reproducibility, validation discipline, and clean ML pipeline design.',
+    impact: [
+      'Designed and implemented a complete machine learning pipeline to classify email messages as spam or ham using TF-IDF feature extraction and a linear Support Vector Machine.',
+      'Ingested and normalized multiple training datasets with differing schemas, unifying labels and text fields into a consistent representation.',
+      'Engineered a text preprocessing workflow including stop-word removal, lowercasing, and minimum document frequency filtering to reduce noise in high-dimensional feature space.',
+      'Trained and evaluated a baseline LinearSVC model using a stratified train/validation split, reporting accuracy, precision, recall, F1 score, and full classification metrics.',
+      'Performed hyperparameter tuning with 5-fold cross-validation using GridSearchCV, optimizing for F1 score to balance false positives and false negatives.',
+      'Re-trained the final model on all available labeled data and generated predictions for an unseen test dataset, persisting results to a structured output artifact.',
+      'Refactored exploratory notebook code into a standalone, reproducible Python script with clear separation between data, source code, and outputs.',
+    ],
+    viewUrl: '',
+    repoUrl: 'https://github.com/TeamirTesh/EmailClassification',
+    expanded: {
+      architecture: 'Script-based ML pipeline with explicit separation of data ingestion, preprocessing, feature extraction, model training, validation, and inference; exploratory development in Jupyter/Colab with a production-style execution script.',
+      decisions: 'TF-IDF selected for interpretability and efficiency on sparse text data; Linear SVM chosen for strong performance in high-dimensional NLP tasks; validation-based evaluation used to prevent data leakage due to unavailable test labels; notebook retained for exploration with a cleaned script for reproducible execution.',
+    },
+  },
+  {
     name: 'Employee Management System',
     status: 'ARCHIVED',
     processType: 'INFRASTRUCTURE',
@@ -96,6 +119,31 @@ const PROJECTS = [
     },
   },
   {
+    name: 'TeamirTeshome.com',
+    status: 'STABLE',
+    processType: 'PRODUCTION SYSTEM',
+    isFlagship: true,
+    techStack: 'Next.js, TypeScript, React, Framer Motion, Tailwind CSS, Next.js Image Optimization',
+    focus: 'Dual-mode portfolio website with OS-themed professional interface and personal reflection layer',
+    impact: [
+      'Designed and implemented a bootloader-style landing page that presents two distinct modes (mir.exe and mir.raw) with terminal-inspired UI and smooth navigation transitions.',
+      'Built a professional OS-themed interface (mir.exe) that displays projects, education, and technical experience using system-inspired components with status indicators and process management metaphors.',
+      'Developed a personal reflection layer (mir.raw) featuring a horizontal scrolling timeline, paginated journal entries, media gallery, and curated personal metadata with warm, low-contrast dark aesthetic.',
+      'Engineered a centralized theme system with shared color palettes and motion presets to ensure visual consistency across landing, professional, and personal pages.',
+      'Implemented a motion-only tricolor accent system that reveals Ethiopian identity through subtle animated color sweeps on interactive elements while maintaining a minimal monochrome resting state.',
+      'Created reusable animation components using Framer Motion with useAnimation hooks to enable persistent hover effects that play tricolor sequences and maintain enhanced states during interaction.',
+      'Designed responsive layouts with mobile-first approach using Tailwind CSS grid and flexbox systems that adapt seamlessly across desktop, tablet, and mobile viewports.',
+      'Integrated Next.js Image optimization and API routes to serve dynamic image galleries with automatic format conversion and lazy loading for improved performance.',
+      'Architected a modular component structure with shared HoverableCard components, theme constants, and motion presets to enable consistent styling and behavior across all sections.',
+    ],
+    viewUrl: '',
+    repoUrl: 'https://github.com/TeamirTesh/portfolio',
+    expanded: {
+      architecture: 'Next.js App Router with client-side routing; shared theme and motion configuration in lib/ directory; modular page components (landing, professional, personal) with reusable UI primitives; Framer Motion for declarative animations; Tailwind CSS for utility-first styling.',
+      decisions: 'OS metaphor chosen to differentiate from traditional portfolios and create memorable user experience; dual-mode design separates professional and personal content while maintaining system cohesion; tricolor accent system adds cultural identity without overwhelming minimal aesthetic; TypeScript selected for type safety across complex component hierarchies; Framer Motion used for performant declarative animations over imperative DOM manipulation.',
+    },
+  },
+  {
     name: 'HearSpace',
     status: 'EXPERIMENTAL',
     processType: 'HARDWARE',
@@ -115,6 +163,57 @@ const PROJECTS = [
       architecture: 'Modular architecture with separate components for vision processing, audio mapping, and hardware integration',
       decisions: 'Incremental development approach allows independent evolution of vision models, audio logic, and hardware components',
     },
+  },
+  {
+    name: 'Blob.AI',
+    status: 'IN PROGRESS',
+    processType: 'EXPERIMENTAL',
+    isFlagship: false,
+    techStack: 'Python, NLP, OCR Pipelines, Document Parsing, LLM-based Analysis, Data Structuring',
+    focus: 'Applying AI-driven document intelligence techniques to extract, structure, and analyze information from unstructured business documents at scale.',
+    impact: [
+      'Participated in a structured externship program with Outamation through Extern.com focused on real-world applications of AI document intelligence.',
+      'Analyzed unstructured and semi-structured business documents to identify opportunities for automation, information extraction, and downstream analytics.',
+      'Designed and evaluated document processing workflows incorporating OCR, text normalization, and semantic parsing to transform raw documents into structured data.',
+      'Applied natural language processing techniques to identify key entities, fields, and relationships within documents such as forms, reports, and records.',
+      'Explored the use of AI and LLM-assisted approaches to improve document understanding, reduce manual review effort, and increase extraction accuracy.',
+      'Collaborated on incremental deliverables leading up to a final capstone project demonstrating an end-to-end document intelligence solution.',
+      'Translated ambiguous business requirements into technical approaches, balancing accuracy, scalability, and interpretability in AI-driven systems.',
+    ],
+    viewUrl: '',
+    repoUrl: '',
+    expanded: {
+      architecture: 'AI document intelligence pipeline consisting of document ingestion, OCR and text extraction, preprocessing and normalization, semantic analysis, structured data generation, and downstream usage for analytics or automation.',
+      decisions: 'OCR and NLP techniques selected to handle unstructured inputs; emphasis placed on modular pipeline design to support different document types; AI-assisted parsing explored to reduce rule-based brittleness and improve adaptability across formats.',
+    },
+  },
+]
+
+const CERTIFICATIONS = [
+  {
+    name: 'Intermediate Technical Interview Prep',
+    image: '/images/certifications/loading.jpg',
+    status: 'COMPLETE',
+  },
+  {
+    name: 'AI Document Intelligence Extern',
+    image: '/images/certifications/loading.jpg',
+    status: 'COMPLETE',
+  },
+  {
+    name: 'Microsoft Azure AI Fundamentals',
+    image: '/images/certifications/loading.jpg',
+    status: 'IN PROGRESS',
+  },
+  {
+    name: 'Grokking the System Design Interview',
+    image: '/images/certifications/loading.jpg',
+    status: 'IN PROGRESS',
+  },
+  {
+    name: 'Github Certified Developer',
+    image: '/images/certifications/loading.jpg',
+    status: 'IN PROGRESS',
   },
 ]
 
@@ -187,7 +286,7 @@ const EDUCATION = [
   {
     degree: 'B.S Computer Science',
     university: 'Georgia State University',
-    graduation: 'Expected Dec 2026',
+    graduation: 'Expected Aug 2026',
     gpa: 'Major GPA: 4.0/4.3',
     coursework: [
       'Algorithms',
@@ -241,8 +340,6 @@ const TECHNICAL_INTERESTS = [
 const CAREER_TRAJECTORY = `Right now, I’m primarily locked in on software engineering, so I’m investing heavily in core SWE skills through things like a systems design certification, an AWS/cloud certification, and an upcoming SWE internship. At the same time, I’m intentionally building strong AI/ML fundamentals by joining two research labs and working on ML-focused projects, with the long-term goal of specializing in machine learning during graduate school. I see SWE as my foundation and AI/ML as my specialization, allowing me to bridge production-level systems with advanced machine learning rather than treating them as separate paths.`
 
 const LICENSES_CERTIFICATIONS: Array<{ name: string; issuer: string; year: string }> = [
-  // Add licenses and certifications here, e.g.:
-  // { name: 'AWS Certified Solutions Architect', issuer: 'Amazon Web Services', year: '2024' },
 ]
 
 // ===== Logo Background Colors =====
@@ -251,8 +348,6 @@ const LOGO_BACKGROUNDS: Record<string, string> = {
   'Georgia State University': '#0039A6',
   'MORSE Studio': '#0039A6', // Uses GSU logo
   'CHAI Lab and Morse Studio': '#0039A6', // Uses GSU logo
-  // Add more colors as needed:
-  // 'Company Name': '#HEXCODE',
 }
 
 // ===== Logo Aliases (companies that should use another company's logo) =====
@@ -470,13 +565,19 @@ function HeroSection() {
             {...SYSTEM_MOUNT.runtime}
             transition={{ ...SYSTEM_MOUNT.runtime.transition, delay: 0.1 }}
           >
-            <div 
-              className="relative w-48 h-48 md:w-56 md:h-56 rounded-lg overflow-hidden"
+            <motion.div 
+              className="relative w-48 h-48 md:w-56 md:h-56 rounded-lg overflow-hidden cursor-pointer"
               style={{ 
                 borderWidth: '2px',
                 borderStyle: 'solid',
                 borderColor: colors.border.hover,
                 backgroundColor: colors.bg.elevated,
+              }}
+              whileHover={{ 
+                opacity: 0.95,
+                borderColor: colors.border.active,
+                boxShadow: `0 0 12px ${OS_COLORS.glow.low}`,
+                transition: { duration: 0.2 },
               }}
             >
               <Image
@@ -486,7 +587,7 @@ function HeroSection() {
                 className="object-cover"
                 priority
               />
-            </div>
+            </motion.div>
           </motion.div>
 
           {/* Identity Block */}
@@ -499,7 +600,15 @@ function HeroSection() {
               {'> whoami'}
             </div>
             <div className="font-mono space-y-2" style={{ color: colors.text.primary }}>
-              <div className="text-2xl md:text-3xl font-semibold">{PROFILE.name}</div>
+              <motion.div 
+                className="text-2xl md:text-3xl font-semibold"
+                whileHover={{ 
+                  color: OS_COLORS.main,
+                  transition: { duration: 0.2 },
+                }}
+              >
+                {PROFILE.name}
+              </motion.div>
               <div className="text-lg" style={{ color: colors.text.secondary }}>{PROFILE.major}</div>
               <div className="text-base" style={{ color: colors.text.secondary }}>{PROFILE.university}</div>
               <div className="text-sm mt-2" style={{ color: colors.text.tertiary }}>{PROFILE.citizenship} | {PROFILE.phone}</div>
@@ -574,6 +683,8 @@ const getStatusColor = (status: string, colors: typeof THEME.colors) => {
       return OS_COLORS.status // Green
     case 'EXPERIMENTAL':
       return colors.secondary.main // Amber
+    case 'IN PROGRESS':
+      return colors.secondary.main // Amber (same as experimental)
     case 'ARCHIVED':
       return colors.text.tertiary // Gray
     default:
@@ -840,6 +951,88 @@ function ProjectsSection() {
                 </div>
               )}
             </motion.div>
+            )
+          })}
+        </motion.div>
+      </div>
+    </motion.section>
+  )
+}
+
+function CertificationsSection() {
+  const colors = THEME.colors
+  
+  return (
+    <motion.section 
+      className="py-12 px-6"
+      style={{ backgroundColor: colors.bg.panel }}
+      {...SYSTEM_MOUNT.runtime}
+    >
+      <div className="max-w-7xl mx-auto">
+        <div className="font-mono text-sm mb-6" style={{ color: colors.text.tertiary }}>
+          {'> cat certs'}
+        </div>
+        <motion.div 
+          className="flex flex-wrap gap-6"
+          variants={staggerContainerOS}
+          initial="hidden"
+          animate="visible"
+        >
+          {CERTIFICATIONS.map((cert, index) => {
+            const statusColor = cert.status === 'COMPLETE' 
+              ? OS_COLORS.status // Green
+              : colors.secondary.main // Amber for IN PROGRESS
+            const shouldPulse = cert.status === 'COMPLETE'
+            
+            return (
+              <motion.div 
+                key={index} 
+                className="flex flex-col items-center rounded-lg p-4"
+                style={{ 
+                  backgroundColor: colors.bg.surface,
+                  borderColor: colors.border.hover,
+                  borderWidth: '1px',
+                  borderStyle: 'solid',
+                  minWidth: '200px',
+                }}
+                variants={mountVariants}
+                whileHover={{ 
+                  opacity: 0.95,
+                  borderColor: colors.border.active,
+                  boxShadow: `0 0 12px ${OS_COLORS.glow.low}`,
+                  transition: { duration: 0.2 },
+                }}
+              >
+                <div className="relative w-32 h-32 mb-3 rounded overflow-hidden" style={{ backgroundColor: '#000000' }}>
+                  <Image
+                    src={cert.image}
+                    alt={cert.name}
+                    fill
+                    className="object-contain"
+                  />
+                </div>
+                <motion.h3 
+                  className="font-mono text-sm text-center mb-2" 
+                  style={{ color: colors.text.primary }}
+                  whileHover={{ 
+                    color: OS_COLORS.main,
+                    transition: { duration: 0.2 },
+                  }}
+                >
+                  {cert.name}
+                </motion.h3>
+                <div className="flex items-center gap-2">
+                  <motion.div 
+                    className="w-2 h-2 rounded-full"
+                    style={{ backgroundColor: statusColor }}
+                    animate={shouldPulse ? { opacity: [1, 0.96, 1] } : { opacity: 1 }}
+                    transition={shouldPulse ? { duration: 3, repeat: Infinity, repeatType: 'loop', ease: 'easeInOut' } : {}}
+                  />
+                  <span className="text-xs italic" style={{ color: colors.text.secondary }}>
+                    {cert.status}
+                  </span>
+                </div>
+              </motion.div>
             )
           })}
         </motion.div>
@@ -1273,6 +1466,7 @@ export default function ProfessionalPage() {
         <EducationSection />
         <ExperienceSection />
         <ProjectsSection />
+        <CertificationsSection />
         <SkillsSection />
         <TechnicalInterestsSection />
         <CareerTrajectorySection />

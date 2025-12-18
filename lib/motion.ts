@@ -241,3 +241,92 @@ export const OS_HOVER_RESPONSE = {
   },
 } as const
 
+// ===== ETHIOPIAN TRICOLOR ACCENT (motion-only) =====
+// Sequential color sweep: green → yellow → red
+// Only appears on interaction, fades back to neutral
+export const TRICOLOR_ACCENT = {
+  // Desaturated, earthy Ethiopian tricolor
+  colors: {
+    green: '#1f5f3b',
+    yellow: '#c8a84a',
+    red: '#7a2a2a',
+  },
+  
+  // Underline sweep animation (for text links)
+  underline: {
+    initial: { scaleX: 0, opacity: 0 },
+    animate: {
+      scaleX: [0, 1, 1, 0],
+      opacity: [0, 0.8, 0.8, 0],
+      backgroundColor: [
+        '#1f5f3b', // green
+        '#1f5f3b',
+        '#c8a84a', // yellow
+        '#7a2a2a', // red
+      ],
+    },
+    transition: {
+      duration: 0.4,
+      ease: 'easeInOut',
+      times: [0, 0.33, 0.66, 1],
+    },
+  },
+  
+  // Border sweep animation (for cards, buttons)
+  border: {
+    initial: { opacity: 0 },
+    animate: {
+      opacity: [0, 0.6, 0.6, 0],
+      borderColor: [
+        '#1f5f3b', // green
+        '#1f5f3b',
+        '#c8a84a', // yellow
+        '#7a2a2a', // red
+      ],
+    },
+    transition: {
+      duration: 0.4,
+      ease: 'easeInOut',
+      times: [0, 0.33, 0.66, 1],
+    },
+  },
+  
+  // Text color sweep (for interactive text)
+  text: {
+    initial: {},
+    animate: {
+      color: [
+        '#1f5f3b', // green
+        '#1f5f3b',
+        '#c8a84a', // yellow
+        '#7a2a2a', // red
+      ],
+      opacity: [1, 1, 1, 1],
+    },
+    transition: {
+      duration: 0.4,
+      ease: 'easeInOut',
+      times: [0, 0.33, 0.66, 1],
+    },
+  },
+  
+  // Glow/shadow sweep (subtle background effect)
+  glow: {
+    initial: { opacity: 0 },
+    animate: {
+      opacity: [0, 0.3, 0.3, 0],
+      boxShadow: [
+        '0 0 8px rgba(31, 95, 59, 0.2)', // green
+        '0 0 8px rgba(31, 95, 59, 0.2)',
+        '0 0 8px rgba(200, 168, 74, 0.2)', // yellow
+        '0 0 8px rgba(122, 42, 42, 0.2)', // red
+      ],
+    },
+    transition: {
+      duration: 0.4,
+      ease: 'easeInOut',
+      times: [0, 0.33, 0.66, 1],
+    },
+  },
+} as const
+
