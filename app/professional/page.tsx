@@ -21,7 +21,7 @@ const PROFILE = {
   email: 'teamirteshome1@gmail.com',
   github: 'https://github.com/TeamirTesh',
   linkedin: 'https://www.linkedin.com/in/teamir-teshome-084219337/',
-  resume: 'https://drive.google.com/file/d/13ffefrvtsVMVZyRZLvt9cb2EHeaQAdB4/view?usp=sharing',
+  resume: 'https://docs.google.com/document/d/1R_75GgWsFAIC4uS5EW19V5_VJoSt5c5oDolJE608cgY/edit?usp=sharing',
   headshot: '/images/professional/headshot1.jpeg',
   phone: '(470)-691-9093',
   citizenship: 'U.S. Citizen',
