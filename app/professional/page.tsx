@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { THEME } from '@/lib/theme'
 import { SYSTEM_MOUNT, staggerContainer, staggerContainerOS, mountVariants, TERMINAL_LIFE, OS_HOVER_RESPONSE } from '@/lib/motion'
 
@@ -72,9 +72,35 @@ const PROJECTS = [
     },
   },
   {
+    name: 'Document_Intelligence.RAG',
+    status: 'STABLE',
+    processType: 'PRODUCTION SYSTEM',
+    isFlagship: false,
+    techStack: 'Python, LlamaIndex, Hugging Face, Mistral-7B, Phi-2, FAISS, Tesseract OCR, Gradio',
+    focus: 'End-to-end document intelligence system for mortgage-related PDFs, combining OCR, metadata-aware retrieval, and open-source LLMs to enable accurate, source-grounded question answering.',
+    impact: [
+      'Designed and implemented a full Retrieval-Augmented Generation (RAG) pipeline capable of processing both digital and scanned mortgage documents.',
+      'Built a selective OCR fallback using Tesseract to extract text from low-quality or scanned PDFs while avoiding unnecessary OCR on digital documents.',
+      'Engineered a chunking and metadata tagging strategy to preserve legal clauses and fee sections, enabling targeted and semantically accurate retrieval.',
+      'Integrated BGE embeddings with a FAISS-backed vector index via LlamaIndex to support fast semantic search over document chunks.',
+      'Implemented a mixed-model architecture using Phi-2 for query routing and document classification, and Mistral-7B for final answer generation.',
+      'Developed a RAG prompt strategy that constrains LLM responses to retrieved context, returning answers with citations and confidence scores.',
+      'Built an interactive Gradio chatbot interface to support document upload, chat history, and real-time question answering.',
+      'Evaluated routing accuracy, retrieval consistency, confidence scoring, and end-to-end stability across multiple mortgage document types.',
+    ],
+    viewUrl: 'https://docs.google.com/presentation/d/1SNMmC7SkiD1D4J0JRDMeY_zD8EwoKaOI5Fq4-Wjb6Ew/edit?usp=sharing',
+    viewLabel: 'slides',
+    demoUrl: 'https://drive.google.com/file/d/1bN-x_2LlJndSuoYcdS-I5IhYK3PBy14G/view?usp=sharing',
+    repoUrl: 'https://github.com/TeamirTesh/Blob.AI',
+    expanded: {
+      architecture: 'Modular RAG architecture with clear separation between document ingestion (OCR & parsing), semantic indexing (chunking, embeddings, vector search), and reasoning (LLM-based answer generation), designed to mirror production document AI systems.',
+      decisions: 'Mixed-model design chosen to balance latency and reasoning quality; lightweight embeddings selected for efficient indexing; metadata-aware retrieval used to improve precision; CPU-only Colab environment prioritized stability and reproducibility over raw inference speed.',
+    },
+  },
+  {
     name: 'Spamify.ML',
     status: 'STABLE',
-    processType: 'EXPERIMENTAL',
+    processType: 'PRODUCTION SYSTEM',
     isFlagship: false,
     techStack: 'Python, scikit-learn, Pandas, NumPy, TF-IDF, Linear SVM',
     focus: 'End-to-end email spam detection using traditional NLP techniques with emphasis on reproducibility, validation discipline, and clean ML pipeline design.',
@@ -164,40 +190,17 @@ const PROJECTS = [
       decisions: 'Incremental development approach allows independent evolution of vision models, audio logic, and hardware components',
     },
   },
-  {
-    name: 'Blob.AI',
-    status: 'IN PROGRESS',
-    processType: 'EXPERIMENTAL',
-    isFlagship: false,
-    techStack: 'Python, NLP, OCR Pipelines, Document Parsing, LLM-based Analysis, Data Structuring',
-    focus: 'Applying AI-driven document intelligence techniques to extract, structure, and analyze information from unstructured business documents at scale.',
-    impact: [
-      'Participated in a structured externship program with Outamation through Extern.com focused on real-world applications of AI document intelligence.',
-      'Analyzed unstructured and semi-structured business documents to identify opportunities for automation, information extraction, and downstream analytics.',
-      'Designed and evaluated document processing workflows incorporating OCR, text normalization, and semantic parsing to transform raw documents into structured data.',
-      'Applied natural language processing techniques to identify key entities, fields, and relationships within documents such as forms, reports, and records.',
-      'Explored the use of AI and LLM-assisted approaches to improve document understanding, reduce manual review effort, and increase extraction accuracy.',
-      'Collaborated on incremental deliverables leading up to a final capstone project demonstrating an end-to-end document intelligence solution.',
-      'Translated ambiguous business requirements into technical approaches, balancing accuracy, scalability, and interpretability in AI-driven systems.',
-    ],
-    viewUrl: '',
-    repoUrl: '',
-    expanded: {
-      architecture: 'AI document intelligence pipeline consisting of document ingestion, OCR and text extraction, preprocessing and normalization, semantic analysis, structured data generation, and downstream usage for analytics or automation.',
-      decisions: 'OCR and NLP techniques selected to handle unstructured inputs; emphasis placed on modular pipeline design to support different document types; AI-assisted parsing explored to reduce rule-based brittleness and improve adaptability across formats.',
-    },
-  },
 ]
 
 const CERTIFICATIONS = [
   {
     name: 'Intermediate Technical Interview Prep',
-    image: '/images/certifications/loading.jpg',
+    image: '/images/certifications/certificate_TIP102.png',
     status: 'COMPLETE',
   },
   {
     name: 'AI Document Intelligence Extern',
-    image: '/images/certifications/loading.jpg',
+    image: '/images/certifications/certificate_extern.png',
     status: 'COMPLETE',
   },
   {
@@ -838,7 +841,7 @@ function ProjectsSection() {
                 <div className="flex items-center gap-2 ml-4 flex-shrink-0">
                   {[(project as any).devpostUrl && { url: (project as any).devpostUrl, label: 'devpost' },
                      (project as any).demoUrl && { url: (project as any).demoUrl, label: 'demo' },
-                     project.viewUrl && { url: project.viewUrl, label: 'view' },
+                     project.viewUrl && { url: project.viewUrl, label: (project as any).viewLabel || 'view' },
                      project.repoUrl && { url: project.repoUrl, label: 'repo', isIcon: true }]
                     .filter(Boolean)
                     .map((link: any, idx) => link.isIcon ? (
@@ -963,83 +966,163 @@ function ProjectsSection() {
 
 function CertificationsSection() {
   const colors = THEME.colors
+  const [selectedImage, setSelectedImage] = useState<{ src: string; name: string } | null>(null)
+  
+  // Close modal on ESC key
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setSelectedImage(null)
+      }
+    }
+    if (selectedImage) {
+      document.addEventListener('keydown', handleEscape)
+      document.body.style.overflow = 'hidden'
+    }
+    return () => {
+      document.removeEventListener('keydown', handleEscape)
+      document.body.style.overflow = 'unset'
+    }
+  }, [selectedImage])
   
   return (
-    <motion.section 
-      className="py-12 px-6"
-      style={{ backgroundColor: colors.bg.panel }}
-      {...SYSTEM_MOUNT.runtime}
-    >
-      <div className="max-w-7xl mx-auto">
-        <div className="font-mono text-sm mb-6" style={{ color: colors.text.tertiary }}>
-          {'> cat certs'}
-        </div>
-        <motion.div 
-          className="flex flex-wrap gap-6"
-          variants={staggerContainerOS}
-          initial="hidden"
-          animate="visible"
-        >
-          {CERTIFICATIONS.map((cert, index) => {
-            const statusColor = cert.status === 'COMPLETE' 
-              ? OS_COLORS.status // Green
-              : colors.secondary.main // Amber for IN PROGRESS
-            const shouldPulse = cert.status === 'COMPLETE'
-            
-            return (
-              <motion.div 
-                key={index} 
-                className="flex flex-col items-center rounded-lg p-4"
-                style={{ 
-                  backgroundColor: colors.bg.surface,
-                  borderColor: colors.border.hover,
-                  borderWidth: '1px',
-                  borderStyle: 'solid',
-                  minWidth: '200px',
-                }}
-                variants={mountVariants}
-                whileHover={{ 
-                  opacity: 0.95,
-                  borderColor: colors.border.active,
-                  boxShadow: `0 0 12px ${OS_COLORS.glow.low}`,
-                  transition: { duration: 0.2 },
-                }}
-              >
-                <div className="relative w-32 h-32 mb-3 rounded overflow-hidden" style={{ backgroundColor: '#000000' }}>
-                  <Image
-                    src={cert.image}
-                    alt={cert.name}
-                    fill
-                    className="object-contain"
-                  />
-                </div>
-                <motion.h3 
-                  className="font-mono text-sm text-center mb-2" 
-                  style={{ color: colors.text.primary }}
+    <>
+      <motion.section 
+        className="py-12 px-6"
+        style={{ backgroundColor: colors.bg.panel }}
+        {...SYSTEM_MOUNT.runtime}
+      >
+        <div className="max-w-7xl mx-auto">
+          <div className="font-mono text-sm mb-6" style={{ color: colors.text.tertiary }}>
+            {'> cat certs'}
+          </div>
+          <motion.div 
+            className="flex flex-wrap gap-6"
+            variants={staggerContainerOS}
+            initial="hidden"
+            animate="visible"
+          >
+            {CERTIFICATIONS.map((cert, index) => {
+              const statusColor = cert.status === 'COMPLETE' 
+                ? OS_COLORS.status // Green
+                : colors.secondary.main // Amber for IN PROGRESS
+              const shouldPulse = cert.status === 'COMPLETE'
+              
+              return (
+                <motion.div 
+                  key={index} 
+                  className="flex flex-col items-center rounded-lg p-4"
+                  style={{ 
+                    backgroundColor: colors.bg.surface,
+                    borderColor: colors.border.hover,
+                    borderWidth: '1px',
+                    borderStyle: 'solid',
+                    minWidth: '200px',
+                  }}
+                  variants={mountVariants}
                   whileHover={{ 
-                    color: OS_COLORS.main,
+                    opacity: 0.95,
+                    borderColor: colors.border.active,
+                    boxShadow: `0 0 12px ${OS_COLORS.glow.low}`,
                     transition: { duration: 0.2 },
                   }}
                 >
-                  {cert.name}
-                </motion.h3>
-                <div className="flex items-center gap-2">
                   <motion.div 
-                    className="w-2 h-2 rounded-full"
-                    style={{ backgroundColor: statusColor }}
-                    animate={shouldPulse ? { opacity: [1, 0.96, 1] } : { opacity: 1 }}
-                    transition={shouldPulse ? { duration: 3, repeat: Infinity, repeatType: 'loop', ease: 'easeInOut' } : {}}
+                    className="relative w-32 h-32 mb-3 rounded overflow-hidden cursor-pointer" 
+                    style={{ backgroundColor: '#000000' }}
+                    onClick={() => setSelectedImage({ src: cert.image, name: cert.name })}
+                    whileHover={{ scale: 1.05 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <Image
+                      src={cert.image}
+                      alt={cert.name}
+                      fill
+                      className="object-contain"
+                    />
+                  </motion.div>
+                  <motion.h3 
+                    className="font-mono text-sm text-center mb-2" 
+                    style={{ color: colors.text.primary }}
+                    whileHover={{ 
+                      color: OS_COLORS.main,
+                      transition: { duration: 0.2 },
+                    }}
+                  >
+                    {cert.name}
+                  </motion.h3>
+                  <div className="flex items-center gap-2">
+                    <motion.div 
+                      className="w-2 h-2 rounded-full"
+                      style={{ backgroundColor: statusColor }}
+                      animate={shouldPulse ? { opacity: [1, 0.96, 1] } : { opacity: 1 }}
+                      transition={shouldPulse ? { duration: 3, repeat: Infinity, repeatType: 'loop', ease: 'easeInOut' } : {}}
+                    />
+                    <span className="text-xs italic" style={{ color: colors.text.secondary }}>
+                      {cert.status}
+                    </span>
+                  </div>
+                </motion.div>
+              )
+            })}
+          </motion.div>
+        </div>
+      </motion.section>
+      
+      {/* Modal/Overlay */}
+      <AnimatePresence>
+        {selectedImage && (
+          <motion.div
+            className="fixed inset-0 z-50 flex items-center justify-center p-4"
+            style={{ backgroundColor: 'rgba(0, 0, 0, 0.9)' }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setSelectedImage(null)}
+          >
+            <motion.div
+              className="relative max-w-xl max-h-[80vh] w-full"
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Close button */}
+              <motion.button
+                className="absolute -top-12 right-0 text-white font-mono text-sm hover:opacity-70 transition-opacity"
+                onClick={() => setSelectedImage(null)}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+              >
+                [ESC] Close
+              </motion.button>
+              
+              {/* Image container */}
+              <div className="relative w-full h-full rounded-lg overflow-hidden flex items-center justify-center" style={{ backgroundColor: '#000000' }}>
+                <div className="relative" style={{ width: '80%', height: '80%' }}>
+                  <Image
+                    src={selectedImage.src}
+                    alt={selectedImage.name}
+                    width={1200}
+                    height={800}
+                    className="object-contain w-full h-full"
+                    unoptimized
                   />
-                  <span className="text-xs italic" style={{ color: colors.text.secondary }}>
-                    {cert.status}
-                  </span>
                 </div>
-              </motion.div>
-            )
-          })}
-        </motion.div>
-      </div>
-    </motion.section>
+              </div>
+              
+              {/* Certificate name */}
+              <div className="mt-4 text-center">
+                <h3 className="font-mono text-lg" style={{ color: colors.text.primary }}>
+                  {selectedImage.name}
+                </h3>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   )
 }
 
