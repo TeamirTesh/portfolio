@@ -244,12 +244,12 @@ const EXPERIENCE = [
     company: 'Outamation',
     period: 'Aug 2025 - Present',
     description: [
-      'Developed an end-to-end document intelligence system to extract structured data from unstructured blob documents (e.g., mortgage and financial records), reducing manual review time by 99%+ and cutting processing latency from hours to seconds.',
-      'Built and evaluated OCR and document preprocessing pipelines using OpenCV, regex, and Python-based data cleaning to improve text extraction quality, alignment, and downstream model accuracy across noisy real-world documents.',
-      'Designed and implemented LLM-powered RAG (Retrieval-Augmented Generation) pipelines to ground model outputs in extracted document content, improving factual accuracy and reliability for document-based question answering.',
-      'Developed an interactive Gradio-based chatbot interface that allows users to query processed documents in natural language, enabling rapid validation, exploration, and human-in-the-loop review of extracted data.',
-      'Applied machine learning workflows for data formatting, extraction, and visualization using pandas and matplotlib, analyzing failure cases and iteratively refining preprocessing and model behavior to improve system robustness.',
-      'Integrated OpenAI and PyTorch-based LLM components into the processing pipeline, combining traditional OCR techniques with modern language models to handle complex layouts, variable formatting, and semantic extraction tasks.',
+      'Ran retrieval experiments across embedding models (MiniLM/E5/BGE) and retriever settings (top-k, similarity thresholding, optional reranking), selecting a configuration that improved document-grounded QA on mortgage fee worksheets.',
+      'Implemented hybrid ingestion (PyMuPDF text extraction + Tesseract OCR fallback) and validated OCR triggers using text-length heuristics to avoid unnecessary OCR on clean digital PDFs.',
+      'Optimized chunking parameters (window size, overlap) to preserve contract clauses and fee tables, improving retrieval coherence and reducing context fragmentation.',
+      'Added metadata tagging + filtering (doc_type, source_file, page/chunk IDs) to route queries and reduce noise during multi-PDF "blob" retrieval.',
+      'Measured pipeline outputs (confidence, retrieved sources, latency, chunks-used) on a query test set and iteratively refined prompts and retrieval logic based on observed failure modes.',
+      'Shipped an interactive Gradio chatbot wired to the full RAG backend (LlamaIndex + FAISS + llama.cpp LLMs) to demo and validate the system end-to-end.',
     ],
   },
   {
@@ -735,6 +735,7 @@ function ProjectsSection() {
 
   return (
     <motion.section 
+      id="projects"
       className="py-12 px-6"
       {...SYSTEM_MOUNT.runtime}
     >
