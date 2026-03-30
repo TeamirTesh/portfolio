@@ -68,6 +68,7 @@ const PROJECTS = [
     ],
     viewUrl: 'https://www.canva.com/design/DAHFP9m3d74/6IC_wG33J-CA1XVdTo7O8A/edit',
     viewLabel: 'pres',
+    demoUrl: 'https://drive.google.com/file/d/1zJr8ymHGIGV7I1YLyUa-7S_kmOhdzs4A/view?usp=sharing',
     repoUrl: 'https://github.com/TeamirTesh/HecklerAI',
     expanded: {
       architecture: 'Clients stream 16 kHz PCM over Socket.io to Express; AssemblyAI transcribes utterances; Redis stores room state and roast records; Groq classifies each sentence and drafts copy; Tavily verifies factual claims; Cartesia returns MP3 audio; the server broadcasts roast payloads to all participants.',
