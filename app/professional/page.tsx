@@ -21,7 +21,7 @@ const PROFILE = {
   email: 'teamirteshome1@gmail.com',
   github: 'https://github.com/TeamirTesh',
   linkedin: 'https://www.linkedin.com/in/teamir-teshome-084219337/',
-  resume: 'https://docs.google.com/document/d/1R_75GgWsFAIC4uS5EW19V5_VJoSt5c5oDolJE608cgY/edit?usp=sharing',
+  resume: 'https://drive.google.com/file/d/1n2WAJN9LFJEtwsbwg4iy13FqYC_PEBf9/view?usp=sharing',
   headshot: '/images/professional/headshot1.jpeg',
   phone: '(470)-691-9093',
   citizenship: 'U.S. Citizen',
@@ -33,21 +33,45 @@ const PROJECTS = [
     status: 'STABLE',
     processType: 'CORE SERVICE',
     isFlagship: true,
-    techStack: 'Python, FastAPI, React.js, PostgreSQL (Supabase), WebSockets, Whisper API',
-    focus: 'AI-powered lecture intelligence platform for professors and students',
+    techStack: 'Python, FastAPI, React 18, Vite, Tailwind CSS, Framer Motion, React Router, Recharts, Supabase (PostgreSQL, Auth, Storage), WebSockets, OpenAI (Whisper, GPT-4)',
+    focus: 'Two-sided lecture platform that pairs real-time AI teaching feedback and analytics for professors with Duolingo-style gamification (XP, streaks, ranks, badges, leaderboards) for students',
     impact: [
-      'Built a real-time, two-sided education platform that improves lecture quality for professors while simultaneously increasing student engagement through AI-driven feedback, analytics, and gamification.',
-      'Designed and implemented a live lecture pipeline using FastAPI, WebSockets, and OpenAI Whisper to stream audio, transcribe lectures in real time, and surface pacing, engagement, and confusion insights during and after class.',
-      'Engineered a gamified student experience (points, streaks, ranks, badges, leaderboards) with React, Tailwind CSS, and Vite to motivate participation, reinforce consistency, and visualize learning progression.',
-      'Developed a scalable backend architecture with Supabase (PostgreSQL), role-based authentication, and real-time session management to support concurrent classes, students, and professors.',
-      'Integrated AI-assisted question generation and hybrid workflows that allow professors to combine manual input with AI suggestions, enabling rapid in-class assessments without disrupting lecture flow.',
+      'Served as lead backend engineer for a team of four at EmoryHacks \'25, originated the product idea, designed the FastAPI and Supabase architecture, and led backend implementation to deliver a working app in 36 hours.',
+      'Built the professor workflow end to end: live lecture mode with streamed audio into Whisper for transcription, participation logging, engagement and pacing signals, confusion spike awareness, and post-lecture analytics dashboards with Recharts.',
+      'Supported the student side with chapter-based progression, profile and weekly stats, tiered ranks (Bronze through Master), class leaderboards with podium styling, and achievements tied to streaks and correct answers.',
+      'Implemented FastAPI routes for auth, classes, lectures (start or end, join codes, presentation upload), attendance, participation history, student profiles, streaks, leaderboards, question stats, and lecture-level analytics backed by Supabase PostgreSQL.',
+      'Shipped a flexible in-class question system: AI-only, manual-only, or hybrid item creation; Kahoot-style 20-second rounds; WebSocket channel for live pushes; and GPT-assisted suggestions on a cadence that resets when faculty trigger a question.',
+      'Delivered a responsive React SPA (Vite, Tailwind, Framer Motion) with role-based routing, separate professor and student dashboards, Lucide iconography, and demo login paths so judges could try both roles instantly.',
     ],
     devpostUrl: 'https://devpost.com/software/classmind',
     demoUrl: 'https://drive.google.com/file/d/1_7LMqYiMdbg638skEzfH_pomy0YWTRRi/view',
     repoUrl: 'https://github.com/amy14-w/XP-LAB',
     expanded: {
-      architecture: 'Scalable backend architecture using Supabase (PostgreSQL), role-based authentication, and real-time audio streaming',
-      decisions: 'Engineered gamified learner experience with points, streaks, badges, and leaderboards that increased student engagement',
+      architecture: 'React clients call FastAPI over REST; WebSockets carry live audio analysis streams, real-time questions, and lecture-scoped events; Supabase hosts PostgreSQL, auth, and storage; Whisper handles streamed transcription; GPT-4 powers teaching insights and question assistance.',
+      decisions: 'Split professor and student UX to mirror real classroom roles; gamification layer drives engagement without blocking core teaching tools; hybrid and timed questions balance instructor control with AI speed; Supabase accelerated auth and persistence under a 36-hour deadline.',
+    },
+  },
+  {
+    name: 'HecklerAI (Hacklanta \'26)',
+    status: 'STABLE',
+    processType: 'PRODUCTION SYSTEM',
+    isFlagship: true,
+    techStack: 'React 18, Vite, Tailwind CSS, Framer Motion, Socket.io, Node.js, Express, Redis, AssemblyAI Streaming, Groq LLaMA 3.3 70B, Tavily, Cartesia TTS',
+    focus: 'Real-time AI debate referee that transcribes live audio, flags fallacies and shaky claims, and interrupts both debaters with voiced roasts or compliments mid-argument',
+    impact: [
+      'Served as lead engineer on a team of four at Hacklanta \'26, originated the product idea, and orchestrated delivery of a working real-time experience in roughly nine hours.',
+      'Owned the AI stack and core reasoning path: Groq-driven utterance classification (fallacy, verifiable claim, strong point, clean), Tavily-backed fact-checking with parallel filler audio while facts resolve, and Cartesia TTS for roasts, compliments, and room announcements.',
+      'Built across the full stack, including the Express and Socket.io server, Redis-backed rooms and roast history, React SPA with debate, spectator, and post-debate reporting flows, plus browser PCM capture (AudioWorklet) through streaming transcription and synchronized playback.',
+      'Tuned latency and interruption policy: AssemblyAI end-of-turn triggers, grace period after start, per-roast cooldown, minimum word count, and a single Groq analysis step before emitting audio so the system feels immediate without spamming the room.',
+      'Shipped roast intensity modes (Easy / Intermediate / Savage), live scoring and transcript UI, spectator join, and Groq-generated post-debate analytics from the full transcript.',
+      'Aligned deployment with production-style targets: Railway for the API with Redis, Vercel for the SPA, a Dockerfile full-stack image, and ngrok HTTPS tunnels for secure mic access during demos and local multi-device tests.',
+    ],
+    viewUrl: 'https://www.canva.com/design/DAHFP9m3d74/6IC_wG33J-CA1XVdTo7O8A/edit',
+    viewLabel: 'pres',
+    repoUrl: 'https://github.com/TeamirTesh/HecklerAI',
+    expanded: {
+      architecture: 'Clients stream 16 kHz PCM over Socket.io to Express; AssemblyAI transcribes utterances; Redis stores room state and roast records; Groq classifies each sentence and drafts copy; Tavily verifies factual claims; Cartesia returns MP3 audio; the server broadcasts roast payloads to all participants.',
+      decisions: 'One Groq call per utterance for label plus copy to cut round-trips; grace period and cooldown to throttle interruptions; parallel Tavily with stop-phrase TTS for perceived responsiveness; roast levels trade interruption frequency and tone for different audiences.',
     },
   },
   {
@@ -234,6 +258,13 @@ const EXPERIENCE = [
     description: '',
   },
   {
+    role: 'LLM Engineer Intern',
+    company: 'ATOM Advantage',
+    period: 'Mar 2026 - Present',
+    description:
+      "Optimizing LLM-based metadata extraction pipelines for UB-04 medical claim forms at ATOM Advantage's Record Ranger.",
+  },
+  {
     role: 'Undergraduate Researcher',
     company: 'CHAI Lab and Morse Studio',
     period: 'Sept 2025 - Present',
@@ -287,6 +318,15 @@ const EXPERIENCE = [
 
 const EDUCATION = [
   {
+    degree: 'M.S Computer Science',
+    university: 'University of Georgia',
+    graduation: 'Expected May 2028',
+    note: 'Admitted Fall \'26',
+    coursework: [],
+    honors: [],
+    organizations: [],
+  },
+  {
     degree: 'B.S Computer Science',
     university: 'Georgia State University',
     graduation: 'Expected Aug 2026',
@@ -327,7 +367,7 @@ const EDUCATION = [
     honors: [
       "President's List",
       "Principal's List",
-      'Student of the Month',
+      'Scholar of the Month',
     ],
     organizations: [],
   },
@@ -348,6 +388,8 @@ const LICENSES_CERTIFICATIONS: Array<{ name: string; issuer: string; year: strin
 // ===== Logo Background Colors =====
 const LOGO_BACKGROUNDS: Record<string, string> = {
   'Cargill': '#FFFFFF', // White
+  'ATOM Advantage': '#FFFFFF',
+  'University of Georgia': '#FFFFFF',
   'Georgia State University': '#0039A6',
   'MORSE Studio': '#0039A6', // Uses GSU logo
   'CHAI Lab and Morse Studio': '#0039A6', // Uses GSU logo
@@ -366,7 +408,7 @@ const CUSTOM_LOGO_FILENAMES: Record<string, string> = {
 
 // ===== Custom Project Folder Names =====
 const CUSTOM_PROJECT_FOLDERS: Record<string, string> = {
-  'XP Lab': 'xplab_emoryhacks_25_winner', // Keep old folder name for existing images
+  'XP Lab (EmoryHacks \'25 Winner)': 'xplab_emoryhacks_25_winner',
   'HearSpace': 'hearspace_assistive_navigation_system_in_progress', // Keep old folder name
   'Employee Management System': 'employee_management_system_role_based_backend_system', // Keep old folder name
 }
@@ -1250,6 +1292,14 @@ function EducationSection() {
                 {edu.gpa && (
                   <div className="text-xs mb-4" style={{ color: colors.text.secondary }}>{edu.gpa}</div>
                 )}
+                {(edu as { note?: string }).note && (
+                  <div className="mt-4">
+                    <div className="text-sm font-mono mb-2" style={{ color: colors.text.tertiary }}>
+                      {(edu as { note?: string }).note}
+                    </div>
+                  </div>
+                )}
+                {edu.coursework && edu.coursework.length > 0 && (
                 <div className="mt-4">
                 <div className="text-sm font-mono mb-2" style={{ color: colors.text.tertiary }}>Relevant Coursework:</div>
                 <div className="flex flex-wrap gap-2">
@@ -1270,6 +1320,7 @@ function EducationSection() {
                   ))}
                 </div>
               </div>
+                )}
               {edu.honors && edu.honors.length > 0 && (
                 <div className="mt-4">
                   <div className="text-sm font-mono mb-2" style={{ color: colors.text.tertiary }}>Honors & Awards:</div>
